@@ -1,0 +1,76 @@
+###############################################################################
+# PrepLink CI — Gate 1 (Full Test Suite), runs on every PR into main.
+# See ADR-003-production-pipeline.md for the full six-gate design; the
+# remaining five gates only run on merge (production.yml).
+###############################################################################
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  gate-1-test-suite:
+    name: "Gate 1 — Full test suite"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff pytest
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Pydantic schema imports
+        run: python -c "import app.schemas.recipe, app.schemas.batch; print('schemas import OK')"
+
+      # TODO(gate-1): remove this guard once tests/safety/ with the 10
+      # nutrition safety rule tests exists. Until then this reports the gap
+      # as a warning instead of hard-failing every PR.
+      - name: Nutrition safety rule tests (10 required)
+        run: |
+          if [ -d "tests/safety" ]; then
+            pytest tests/safety -v
+          else
+            echo "::warning::tests/safety/ not found — the 10 nutrition safety rule tests are not implemented yet. This must be a hard gate before production traffic depends on this pipeline (see ADR-003)."
+          fi
+
+      - name: pytest (full suite)
+        run: |
+          if [ -d "tests" ] && [ -n "$(find tests -name 'test_*.py' -print -quit)" ]; then
+            pytest
+          else
+            echo "::warning::No pytest test files found under tests/ — skipping."
+          fi
+
+      # TODO(gate-1): remove this guard once frontend/ exists.
+      - uses: actions/setup-node@v4
+        if: hashFiles('frontend/package.json') != ''
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: TypeScript strict check
+        run: |
+          if [ -f "frontend/package.json" ]; then
+            cd frontend && npm ci && npx tsc --noEmit --strict
+          else
+            echo "::warning::frontend/ not found — skipping TypeScript strict check."
+          fi
+
+      - name: Frontend build
+        run: |
+          if [ -f "frontend/package.json" ]; then
+            cd frontend && npm run build
+          else
+            echo "::warning::frontend/ not found — skipping frontend build."
+          fi

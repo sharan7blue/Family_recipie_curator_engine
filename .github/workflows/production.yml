@@ -1,0 +1,219 @@
+###############################################################################
+# PrepLink Production Deploy — six gates run in sequence on every merge to
+# main. Each job `needs` the previous one, so a failure stops the pipeline
+# before it reaches deploy. See ADR-003-production-pipeline.md for rationale
+# and the current implementation-status caveats (several steps below are
+# guarded with TODO(gate-N) comments until their target exists).
+###############################################################################
+name: Production Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+
+  # ─── Gate 1 — Full test suite ──────────────────────────────────────────────
+  gate-1-test-suite:
+    name: "Gate 1 — Full test suite"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff pytest
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Pydantic schema imports
+        run: python -c "import app.schemas.recipe, app.schemas.batch; print('schemas import OK')"
+
+      # TODO(gate-1): remove this guard once tests/safety/ exists (10 tests).
+      - name: Nutrition safety rule tests (10 required)
+        run: |
+          if [ -d "tests/safety" ]; then
+            pytest tests/safety -v
+          else
+            echo "::warning::tests/safety/ not found — nutrition safety rule tests are not implemented yet. This is required before this pipeline is a real production gate (see ADR-003)."
+          fi
+
+      - name: pytest (full suite)
+        run: |
+          if [ -d "tests" ] && [ -n "$(find tests -name 'test_*.py' -print -quit)" ]; then
+            pytest
+          else
+            echo "::warning::No pytest test files found under tests/ — skipping."
+          fi
+
+      # TODO(gate-1): remove this guard once frontend/ exists.
+      - name: TypeScript strict check + frontend build
+        run: |
+          if [ -f "frontend/package.json" ]; then
+            cd frontend && npm ci && npx tsc --noEmit --strict && npm run build
+          else
+            echo "::warning::frontend/ not found — skipping TS check and frontend build."
+          fi
+
+  # ─── Gate 2 — Security audit ───────────────────────────────────────────────
+  gate-2-security:
+    name: "Gate 2 — Security audit"
+    needs: gate-1-test-suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Bandit
+        run: pip install bandit
+
+      - name: Bandit — fail on HIGH severity only
+        run: bandit -r app -lll
+
+      - name: Bandit — full report (non-blocking, for triage)
+        run: bandit -r app -l || true
+
+      # TODO(gate-2): remove this guard once frontend/ exists.
+      - name: npm audit — fail on critical only
+        run: |
+          if [ -f "frontend/package.json" ]; then
+            cd frontend && npm audit --audit-level=critical
+          else
+            echo "::warning::frontend/ not found — skipping npm audit."
+          fi
+
+      - name: npm audit — full report (non-blocking, for triage)
+        run: |
+          if [ -f "frontend/package.json" ]; then
+            cd frontend && npm audit || true
+          fi
+
+  # ─── Gate 3 — Lighthouse baseline ──────────────────────────────────────────
+  gate-3-lighthouse:
+    name: "Gate 3 — Lighthouse baseline (accessibility hard gate)"
+    needs: gate-2-security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # TODO(gate-3): remove this guard once frontend/ exists and is built
+      # into frontend/.next (or equivalent) so Lighthouse has something to
+      # crawl. accessibility < 0.85 must be a hard failure once this is live
+      # — the app serves parents making health decisions for infants.
+      - name: Run Lighthouse CI
+        run: |
+          if [ -f "frontend/package.json" ]; then
+            cd frontend
+            npm ci
+            npm run build
+            npm run start & sleep 5
+            npx -y @lhci/cli@0.14.x autorun \
+              --collect.url=http://localhost:3000 \
+              --assert.assertions.categories:accessibility='["error", {"minScore": 0.85}]' \
+              --assert.assertions.categories:performance='["warn", {"minScore": 0.9}]' \
+              --assert.assertions.categories:seo='["warn", {"minScore": 0.9}]'
+          else
+            echo "::warning::frontend/ not found — Lighthouse gate has nothing to run against yet. accessibility < 0.85 MUST hard-fail this job once frontend/ exists (see ADR-003)."
+          fi
+
+  # ─── Gate 4 — Deploy frontend to Vercel ────────────────────────────────────
+  gate-4-deploy-frontend:
+    name: "Gate 4 — Deploy frontend (Vercel production)"
+    needs: gate-3-lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # TODO(gate-4): requires VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+      # repo secrets and a frontend/ app. Guarded so this doesn't hard-fail
+      # every merge until those exist.
+      - name: Deploy to Vercel production
+        run: |
+          if [ -f "frontend/package.json" ] && [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
+            npx -y vercel@latest deploy --prod --yes --token="${{ secrets.VERCEL_TOKEN }}" --cwd frontend
+          else
+            echo "::warning::Skipping Vercel deploy — frontend/ and/or VERCEL_TOKEN not present yet."
+          fi
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  # ─── Gate 5 — Deploy backend to Fly.io ─────────────────────────────────────
+  gate-5-deploy-backend:
+    name: "Gate 5 — Deploy backend (Fly.io: API + Celery workers)"
+    needs: gate-4-deploy-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      # TODO(gate-5): requires FLY_API_TOKEN repo secret and a fly.toml
+      # (one app per process: api, worker-interactive, worker-batch, beat —
+      # see ADR-002 for the process topology this maps onto). Guarded so
+      # this doesn't hard-fail every merge until fly.toml exists.
+      - name: Deploy to Fly.io production
+        run: |
+          if [ -f "fly.toml" ] && [ -n "${{ secrets.FLY_API_TOKEN }}" ]; then
+            flyctl deploy --remote-only
+          else
+            echo "::warning::Skipping Fly.io deploy — fly.toml and/or FLY_API_TOKEN not present yet."
+          fi
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  # ─── Gate 6 — Smoke tests + PostHog deploy event ───────────────────────────
+  gate-6-smoke-tests:
+    name: "Gate 6 — Smoke tests"
+    needs: gate-5-deploy-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Smoke test — API /health
+        run: |
+          if [ -n "${{ secrets.PRODUCTION_API_URL }}" ]; then
+            curl -sf "${{ secrets.PRODUCTION_API_URL }}/health"
+          else
+            echo "::warning::PRODUCTION_API_URL not set — skipping API smoke test."
+          fi
+
+      - name: Smoke test — frontend returns 200
+        run: |
+          if [ -n "${{ secrets.PRODUCTION_FRONTEND_URL }}" ]; then
+            status=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.PRODUCTION_FRONTEND_URL }}")
+            if [ "$status" != "200" ]; then
+              echo "::error::Frontend returned HTTP $status, expected 200"
+              exit 1
+            fi
+          else
+            echo "::warning::PRODUCTION_FRONTEND_URL not set — skipping frontend smoke test."
+          fi
+
+      - name: Notify PostHog of production deploy
+        if: success()
+        run: |
+          if [ -n "${{ secrets.POSTHOG_API_KEY }}" ]; then
+            curl -sf -X POST "${{ secrets.POSTHOG_HOST || 'https://app.posthog.com' }}/capture/" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "api_key": "'"${{ secrets.POSTHOG_API_KEY }}"'",
+                "event": "production_deploy",
+                "distinct_id": "github-actions",
+                "properties": {
+                  "commit_sha": "'"${{ github.sha }}"'",
+                  "actor": "'"${{ github.actor }}"'",
+                  "repo": "'"${{ github.repository }}"'"
+                }
+              }'
+          else
+            echo "::warning::POSTHOG_API_KEY not set — skipping deploy event."
+          fi
