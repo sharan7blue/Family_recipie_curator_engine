@@ -8,7 +8,7 @@ preview instead of actually round-tripping to OpenAI.
 from __future__ import annotations
 
 import uuid
-from typing import AsyncIterator
+from collections.abc import AsyncIterator
 
 TERMINAL_STATUSES = {"completed", "failed", "expired", "cancelled"}
 

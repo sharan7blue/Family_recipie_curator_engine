@@ -17,16 +17,13 @@ All values are JSON-serialised strings.
 
 from __future__ import annotations
 
-import json
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import UTC, datetime
 
 import redis
 
 from app.core.config import settings
 from app.core.logger import logger
-from app.schemas.batch import BatchJobStatus, BatchProvider, BatchResultItem, BulkJobResults, estimate_cost
-
+from app.schemas.batch import BatchJobStatus, BatchResultItem, BulkJobResults, estimate_cost
 
 # ─── Redis client (synchronous — used from Celery tasks) ─────────────────────
 
@@ -40,7 +37,7 @@ def _redis() -> redis.Redis:
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 JOB_TTL = settings.BULK_JOB_TTL_SECONDS   # 7 days
@@ -52,8 +49,8 @@ def create_job(
     bulk_job_id: str,
     total_items: int,
     provider: str,
-    job_name: Optional[str] = None,
-    notify_webhook: Optional[str] = None,
+    job_name: str | None = None,
+    notify_webhook: str | None = None,
 ) -> None:
     r = _redis()
     key = f"bulk_job:{bulk_job_id}"
@@ -118,7 +115,7 @@ def set_item_result(bulk_job_id: str, result: BatchResultItem) -> None:
 
 # ─── Read helpers ─────────────────────────────────────────────────────────────
 
-def get_job(bulk_job_id: str) -> Optional[dict]:
+def get_job(bulk_job_id: str) -> dict | None:
     r = _redis()
     data = r.hgetall(f"bulk_job:{bulk_job_id}")
     if not data:
@@ -142,7 +139,7 @@ def get_provider_batches(bulk_job_id: str) -> list[str]:
     return r.lrange(f"bulk_job:{bulk_job_id}:prov_batches", 0, -1)
 
 
-def get_job_results(bulk_job_id: str) -> Optional[BulkJobResults]:
+def get_job_results(bulk_job_id: str) -> BulkJobResults | None:
     job = get_job(bulk_job_id)
     if not job:
         return None

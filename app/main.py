@@ -14,13 +14,14 @@ Process topology (see docker-compose.yml):
 """
 
 from __future__ import annotations
+
 import time
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
-from contextlib import asynccontextmanager
 
 from app.api.routes import batch_router, cart_router, recipe_router, ws_router
 from app.core.cache import recipe_cache

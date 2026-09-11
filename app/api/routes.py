@@ -15,8 +15,8 @@ from pydantic import BaseModel
 
 from app.core.logger import logger
 from app.core.websocket_manager import ws_manager
-from app.schemas.recipe import AgeGroup, DietaryFlag, UnitSystem
 from app.schemas.batch import BatchProvider
+from app.schemas.recipe import AgeGroup, DietaryFlag, UnitSystem
 from app.workers import job_store
 
 recipe_router = APIRouter(prefix="/api/recipe", tags=["Recipe"])
@@ -56,7 +56,8 @@ async def process_recipe(req: RecipeProcessRequest):
     except Exception as e:
         logger.warning(f"[API] Celery dispatch unavailable ({e}); running pipeline inline for local preview")
 
-    from app.services import extractor as ex, adaptor, cart_builder
+    from app.services import adaptor, cart_builder
+    from app.services import extractor as ex
 
     extracted = await ex.extract_recipe(req.url)
     adapted = await adaptor.run_adaptation_pass(

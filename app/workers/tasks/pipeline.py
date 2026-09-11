@@ -24,21 +24,21 @@ Why chord not group:
 
 from __future__ import annotations
 
-from celery import chain, chord, group
+from celery import chain, chord
 from celery.utils.log import get_task_logger
 
-from app.workers.celery_app import celery_app
+from app.core.pipeline_router import chunk_for_batch
+from app.schemas.batch import BatchJobStatus
 from app.workers import job_store
-from app.workers.tasks.extraction import fetch_transcripts_for_chunk
+from app.workers.celery_app import celery_app
 from app.workers.tasks.batch_api import (
-    submit_extraction_batch,
+    poll_adaptation_batch,
     poll_extraction_batch,
     submit_adaptation_batch,
-    poll_adaptation_batch,
+    submit_extraction_batch,
 )
 from app.workers.tasks.cart import build_carts_for_chunk, notify_webhook
-from app.schemas.batch import BatchJobStatus
-from app.core.pipeline_router import chunk_for_batch
+from app.workers.tasks.extraction import fetch_transcripts_for_chunk
 
 logger = get_task_logger(__name__)
 
@@ -169,9 +169,11 @@ def process_interactive_recipe(
     Pushes WebSocket events as it progresses.
     """
     import asyncio
-    from app.services import extractor as ex, adaptor, cart_builder
-    from app.schemas.recipe import AgeGroup, DietaryFlag, UnitSystem
+
     from app.core.websocket_manager import ws_manager
+    from app.schemas.recipe import AgeGroup, DietaryFlag, UnitSystem
+    from app.services import adaptor, cart_builder
+    from app.services import extractor as ex
 
     async def _run_pipeline():
         await ws_manager.push_job_progress(job_id, user_id, "extracting", 15, "Fetching recipe…")

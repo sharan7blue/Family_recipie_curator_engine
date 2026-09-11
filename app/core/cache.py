@@ -9,18 +9,16 @@ unreachable, so the API still boots for local preview without Redis running.
 from __future__ import annotations
 
 import time
-from typing import Optional
 
 import redis.asyncio as aioredis
 
 from app.core.config import settings
-from app.core.logger import logger
 
 
 class RecipeCache:
     def __init__(self, url: str):
         self._url = url
-        self._client: Optional[aioredis.Redis] = None
+        self._client: aioredis.Redis | None = None
         self._memory: dict[str, tuple[str, float]] = {}  # key -> (value, expires_at)
         self._redis_ok = False
 

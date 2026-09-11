@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from celery.utils.log import get_task_logger
 
-from app.workers.celery_app import celery_app
 from app.workers import job_store
+from app.workers.celery_app import celery_app
 
 logger = get_task_logger(__name__)
 

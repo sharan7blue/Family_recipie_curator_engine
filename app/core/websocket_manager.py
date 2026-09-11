@@ -30,7 +30,9 @@ class WebSocketManager:
     async def push_job_progress(self, job_id: str, user_id: str, stage: str, pct: int, message: str) -> None:
         await self._send(job_id, {"type": "progress", "stage": stage, "pct": pct, "message": message})
 
-    async def push_job_complete(self, job_id: str, user_id: str, recipe: dict, cart: dict, processing_time_ms: int) -> None:
+    async def push_job_complete(
+        self, job_id: str, user_id: str, recipe: dict, cart: dict, processing_time_ms: int
+    ) -> None:
         await self._send(job_id, {"type": "complete", "recipe": recipe, "cart": cart})
 
     async def push_job_error(self, job_id: str, user_id: str, error: str) -> None:

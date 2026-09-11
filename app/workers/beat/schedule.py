@@ -16,13 +16,13 @@ Redis as its schedule store (no file-based schedule.db needed).
 
 from __future__ import annotations
 
-from datetime import datetime, timezone, timedelta
+from datetime import UTC, datetime, timedelta
 
-from celery.utils.log import get_task_logger
 from celery.schedules import crontab
+from celery.utils.log import get_task_logger
 
-from app.workers.celery_app import celery_app
 from app.schemas.batch import BatchJobStatus
+from app.workers.celery_app import celery_app
 
 logger = get_task_logger(__name__)
 
@@ -63,6 +63,7 @@ celery_app.conf.beat_schedule = {
 def health_check():
     """Ping Redis and log a heartbeat. Alerts if Redis is unreachable."""
     import redis as _redis
+
     from app.core.config import settings
     try:
         r = _redis.from_url(settings.REDIS_CACHE_URL, socket_timeout=3)
@@ -96,7 +97,7 @@ def reap_stale_jobs():
             continue
         try:
             started = datetime.fromisoformat(started_at)
-            age_hours = (datetime.now(timezone.utc) - started).total_seconds() / 3600
+            age_hours = (datetime.now(UTC) - started).total_seconds() / 3600
             if age_hours > STALE_THRESHOLD_HOURS:
                 job_store.set_status(job["bulk_job_id"], BatchJobStatus.FAILED)
                 logger.warning(
@@ -121,8 +122,8 @@ def log_cost_summary():
     Compute and log aggregate cost metrics from the Redis job store.
     In production, emit as structured metrics to Datadog/CloudWatch.
     """
-    from app.workers import job_store
     from app.schemas.batch import estimate_cost
+    from app.workers import job_store
 
     jobs = job_store.list_jobs(limit=1000)
     total_input  = 0
@@ -134,12 +135,13 @@ def log_cost_summary():
         created_at = job.get("created_at", "")
         try:
             created = datetime.fromisoformat(created_at)
-            if (datetime.now(timezone.utc) - created) > timedelta(hours=6):
+            if (datetime.now(UTC) - created) > timedelta(hours=6):
                 continue
         except Exception:
             continue
 
         import redis as _redis
+
         from app.core.config import settings
         r = _redis.from_url(settings.REDIS_CACHE_URL, decode_responses=True)
         inp  = int(r.hget(f"bulk_job:{job['bulk_job_id']}", "input_tokens") or 0)
@@ -169,6 +171,7 @@ def cleanup_old_results():
     slipped through normal TTL management (e.g. keys set before TTL was added).
     """
     import redis as _redis
+
     from app.core.config import settings
 
     r   = _redis.from_url(settings.REDIS_CACHE_URL, decode_responses=True)

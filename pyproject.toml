@@ -1,0 +1,14 @@
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+# Correctness + style. Security-style checks (blind except, try/except/pass,
+# etc.) are intentionally left to Bandit in CI Gate 2 (see ADR-003) rather
+# than duplicated here — this project's async fallback patterns (Redis
+# unreachable, best-effort websocket push) rely on catching broad
+# Exception on purpose.
+select = ["E", "F", "I", "UP"]
+# `str, Enum` mixins are used deliberately for FastAPI/Pydantic serialization
+# ergonomics; StrEnum is not a drop-in replacement for that use case.
+ignore = ["UP042"]

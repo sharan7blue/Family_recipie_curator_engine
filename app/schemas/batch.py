@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel
 
@@ -24,8 +23,8 @@ class BatchProvider(str, Enum):
 class BatchResultItem(BaseModel):
     custom_id: str
     status: str
-    recipe_json: Optional[str] = None
-    error: Optional[str] = None
+    recipe_json: str | None = None
+    error: str | None = None
 
 
 class BulkJobResults(BaseModel):

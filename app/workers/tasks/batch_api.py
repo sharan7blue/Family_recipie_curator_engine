@@ -17,16 +17,12 @@ reschedule across available workers.
 from __future__ import annotations
 
 import asyncio
-import json
-from typing import Optional
 
 from celery import Task
-from celery.exceptions import SoftTimeLimitExceeded
 from celery.utils.log import get_task_logger
 
-from app.workers.celery_app import celery_app
 from app.workers import job_store
-from app.schemas.batch import BatchJobStatus, BatchResultItem, estimate_cost
+from app.workers.celery_app import celery_app
 
 logger = get_task_logger(__name__)
 
@@ -66,7 +62,6 @@ def submit_extraction_batch(
     Returns {batch_id, custom_id_map, valid_count}.
     """
     from app.services.batch import openai_batch as ob
-    from app.services import extractor as ex
 
     valid  = [r for r in transcript_results if not r["failed"] and r["transcript"]]
     if not valid:
@@ -81,7 +76,8 @@ def submit_extraction_batch(
         url      = item["url"]
         platform = r["platform"]
         import hashlib
-        key = hashlib.md5(f"{url}|{item.get('age_group','adult')}|{','.join(sorted(item.get('dietary_filters',[])))}".encode()).hexdigest()[:16]
+        filters = ",".join(sorted(item.get("dietary_filters", [])))
+        key = hashlib.md5(f"{url}|{item.get('age_group', 'adult')}|{filters}".encode()).hexdigest()[:16]
         custom_id_map[key] = item
 
         lines.append(ob.build_extraction_jsonl_line(
@@ -121,9 +117,9 @@ def poll_extraction_batch(
     Poll OpenAI for batch completion. Uses self.retry() so the worker
     is free between polls. Returns list of {item, recipe_json, failed} dicts.
     """
-    from app.services.batch import openai_batch as ob
     from app.schemas.recipe import LLMIngredientExtractionOutput
     from app.services import extractor as ex
+    from app.services.batch import openai_batch as ob
 
     batch_id      = submission.get("batch_id")
     custom_id_map = submission.get("custom_id_map", {})
@@ -210,9 +206,9 @@ def submit_adaptation_batch(
     bulk_job_id: str,
 ) -> dict:
     """Build and submit the age-adaptation batch."""
-    from app.services.batch import openai_batch as ob
-    from app.services.adaptor import resolve_age_band, classify_pantry, check_ingredient_safety_for_band
     from app.schemas.recipe import ExtractedRecipe
+    from app.services.adaptor import check_ingredient_safety_for_band, classify_pantry, resolve_age_band
+    from app.services.batch import openai_batch as ob
 
     valid = [r for r in extraction_results if not r.get("failed") and r.get("llm_json")]
     if not valid:
@@ -275,9 +271,9 @@ def poll_adaptation_batch(
     bulk_job_id: str,
 ) -> list[dict]:
     """Poll until adaptation batch completes. Returns list of {item, adapted_json}."""
-    from app.services.batch import openai_batch as ob
-    from app.schemas.recipe import ExtractedRecipe, LLMAdaptationOutput, AgeGroup, DietaryFlag, UnitSystem
+    from app.schemas.recipe import AgeGroup, DietaryFlag, ExtractedRecipe, LLMAdaptationOutput, UnitSystem
     from app.services.adaptor import assemble_adapted_recipe
+    from app.services.batch import openai_batch as ob
 
     batch_id      = submission.get("batch_id")
     custom_id_map = submission.get("custom_id_map", {})
