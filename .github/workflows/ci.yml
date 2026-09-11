@@ -30,7 +30,7 @@ jobs:
         run: ruff check .
 
       - name: Pydantic schema imports
-        run: python -c "import app.schemas.recipe, app.schemas.batch; print('schemas import OK')"
+        run: python -c "import app.schemas.recipe; print('schemas import OK')"
 
       # TODO(gate-1): remove this guard once tests/safety/ with the 10
       # nutrition safety rule tests exists. Until then this reports the gap

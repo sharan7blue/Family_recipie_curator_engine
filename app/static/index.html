@@ -86,9 +86,9 @@
 <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">About this preview</span>
 </div>
 <p class="font-body-sm text-body-sm text-on-surface-variant">
-  Submitting a URL dispatches a real Celery task through the worker fleet described in ADR-002, and streams live
-  progress back over a WebSocket. The recipe content itself (ingredients, transcript, nutrition scoring) is
-  stubbed placeholder data until the Phase 0 build items in <code>ROADMAP.md</code> are implemented — see
+  Submitting a URL runs the AI pipeline synchronously in one request (see ARCHITECTURE.md and ADR-004) and
+  returns the finished cart directly — no task queue. The recipe content itself (ingredients, transcript,
+  nutrition scoring) is stubbed placeholder data until the Phase 0 build items in <code>ROADMAP.md</code> are implemented — see
   <a class="text-primary hover:underline" href="https://github.com/sharan7blue/Family_recipie_curator_engine" target="_blank" rel="noopener">the repo</a>.
 </p>
 </div>
@@ -141,7 +141,7 @@
       const r = await fetch('/health');
       const d = await r.json();
       healthDot.className = 'w-2.5 h-2.5 rounded-full ' + (d.status === 'ok' ? 'bg-primary' : 'bg-error');
-      healthDot.title = `API ${d.status} · redis ${d.redis_cache} · celery ${d.celery_broker}`;
+      healthDot.title = `API ${d.status} · redis ${d.redis_cache}`;
     } catch {
       healthDot.className = 'w-2.5 h-2.5 rounded-full bg-error';
       healthDot.title = 'API unreachable';
@@ -179,73 +179,34 @@
 
     setBusy(true);
     pipelineSection.hidden = false;
-    renderStages(null, []);
+    // No task queue anymore (ADR-004) — the whole pipeline runs inside this
+    // one request. Animate through the stages while we wait for it to return.
+    let i = 0;
+    renderStages(STAGES[0].key, []);
     pipelinePct.textContent = '0%';
+    const animateTimer = setInterval(() => {
+      i = Math.min(i + 1, STAGES.length - 1);
+      renderStages(STAGES[i].key, STAGES.slice(0, i).map(s => s.key));
+      pipelinePct.textContent = Math.round(((i + 1) / STAGES.length) * 90) + '%';
+    }, 350);
 
-    let resp, data;
     try {
-      resp = await fetch('/api/recipe/process', {
+      const resp = await fetch('/api/recipe/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url, age_group: 'toddler', dietary_filters: [] }),
       });
-      data = await resp.json();
+      const data = await resp.json();
       if (!resp.ok) throw new Error(data.detail || `HTTP ${resp.status}`);
+
+      clearInterval(animateTimer);
+      pipelinePct.textContent = '100%';
+      renderStages(null, STAGES.map(s => s.key));
+      setTimeout(() => { window.location.href = `recipe.html?job=${data.job_id}`; }, 300);
     } catch (err) {
+      clearInterval(animateTimer);
       formStatus.textContent = 'Error: ' + err.message;
       setBusy(false);
-      return;
-    }
-
-    if (data.status === 'complete') {
-      window.location.href = `recipe.html?job=${data.job_id}`;
-      return;
-    }
-
-    const wsProto = location.protocol === 'https:' ? 'wss' : 'ws';
-    const ws = new WebSocket(`${wsProto}://${location.host}/ws/jobs/${data.job_id}`);
-    const doneKeys = [];
-
-    ws.onmessage = (ev) => {
-      const msg = JSON.parse(ev.data);
-      if (msg.type === 'progress') {
-        pipelinePct.textContent = msg.pct + '%';
-        STAGES.forEach(s => { if (STAGES.findIndex(x => x.key === s.key) < STAGES.findIndex(x => x.key === msg.stage)) {
-          if (!doneKeys.includes(s.key)) doneKeys.push(s.key);
-        }});
-        renderStages(msg.stage, doneKeys);
-      } else if (msg.type === 'complete') {
-        pipelinePct.textContent = '100%';
-        renderStages(null, STAGES.map(s => s.key));
-        ws.close();
-        setTimeout(() => { window.location.href = `recipe.html?job=${data.job_id}`; }, 400);
-      } else if (msg.type === 'error') {
-        formStatus.textContent = 'Error: ' + msg.error;
-        ws.close();
-        setBusy(false);
-      }
-    };
-    ws.onerror = () => {
-      // Fall back to polling if the WebSocket can't connect (e.g. proxy strips it)
-      pollStatus(data.job_id);
-    };
-
-    async function pollStatus(jobId) {
-      const timer = setInterval(async () => {
-        try {
-          const r = await fetch(`/api/recipe/process/${jobId}`);
-          if (r.status === 404) return;
-          const d = await r.json();
-          if (d.status === 'complete') {
-            clearInterval(timer);
-            window.location.href = `recipe.html?job=${jobId}`;
-          } else if (d.status === 'error') {
-            clearInterval(timer);
-            formStatus.textContent = 'Error: ' + (d.error || 'unknown');
-            setBusy(false);
-          }
-        } catch (e) { clearInterval(timer); formStatus.textContent = 'Error: ' + e.message; setBusy(false); }
-      }, 700);
     }
   });
 })();

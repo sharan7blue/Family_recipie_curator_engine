@@ -3,6 +3,9 @@ PrepLink Settings
 ===================
 Local-preview defaults: everything is overridable via env vars / .env,
 but nothing is required to boot the app for a local stub preview.
+
+Per ADR-004, there is no Celery broker/result-backend anymore — Redis is
+used only as a cache (nutrition lookups, recipe-by-id storage).
 """
 
 from __future__ import annotations
@@ -18,17 +21,12 @@ class Settings(BaseSettings):
     RATE_LIMIT_PER_MINUTE: int = 60
 
     REDIS_CACHE_URL: str = "redis://localhost:6379/0"
-    CELERY_BROKER_URL: str = "redis://localhost:6379/1"
-    CELERY_RESULT_BACKEND: str = "redis://localhost:6379/2"
+    RECIPE_TTL_SECONDS: int = 86400 * 7  # 7 days
 
-    CELERY_TASK_SOFT_TIME_LIMIT: int = 3600
-    CELERY_TASK_TIME_LIMIT: int = 7200
-
-    BULK_JOB_TTL_SECONDS: int = 86400 * 7
-    INTERACTIVE_JOB_TTL_SECONDS: int = 3600
-
+    USDA_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
     ANTHROPIC_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
 
 
 settings = Settings()

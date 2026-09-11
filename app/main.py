@@ -1,16 +1,10 @@
 """
 PrepLink FastAPI Application
 =============================
-API process only — no background threads, no APScheduler.
-All heavy work is dispatched to the Celery worker fleet via Redis.
-
-Process topology (see docker-compose.yml):
-  api              → FastAPI (this file)  — port 8000
-  worker-interactive → Celery worker      — queue: interactive  concurrency: 4
-  worker-batch       → Celery worker      — queue: batch        concurrency: 8
-  beat               → Celery beat        — periodic tasks      (RedBeat scheduler)
-  flower             → Celery flower      — monitoring UI       port 5555
-  redis              → Redis              — broker + cache + result-backend
+Single-process API. Per ADR-004 there is no Celery worker fleet — each
+recipe request runs the AI pipeline synchronously in-process and returns the
+finished result in the same HTTP response (PRD <15s P95 cart-build budget).
+Redis is used only as a cache (rate limiting, recipe-by-id storage).
 """
 
 from __future__ import annotations
@@ -24,7 +18,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.api.routes import batch_router, cart_router, recipe_router, ws_router
+from app.api.routes import cart_router, recipe_router
 from app.core.cache import recipe_cache
 from app.core.config import settings
 from app.core.logger import logger
@@ -32,10 +26,10 @@ from app.core.logger import logger
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("PrepLink API starting — Celery worker fleet handles background tasks")
+    logger.info("PrepLink API starting")
     try:
         await recipe_cache.ping()
-        logger.info("Redis connected (DB 0 — cache)")
+        logger.info("Redis connected (cache)")
     except Exception:
         logger.warning("Redis unavailable — cache falling back to in-memory dict")
     yield
@@ -45,13 +39,12 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="PrepLink API",
-    version="2.0.0",
+    version="3.0.0",
     description=(
         "Social recipe URLs → age-adapted, pantry-aware Instacart carts.\n\n"
-        "**Pipeline:**\n"
-        "- Interactive queue (`queue=interactive`): real-time, standard API quota, user is waiting\n"
-        "- Batch queue (`queue=batch`): 50% cheaper, separate quota pool, up to 24h SLA\n\n"
-        "Background processing runs in dedicated Celery workers (not in this process)."
+        "Each request runs the AI pipeline synchronously and returns the "
+        "finished recipe + cart in the same response — see ARCHITECTURE.md "
+        "and ADR-004."
     ),
     lifespan=lifespan,
     docs_url="/docs" if settings.ENVIRONMENT != "production" else None,
@@ -99,36 +92,21 @@ async def rate_limit(request: Request, call_next):
 
 app.include_router(recipe_router)
 app.include_router(cart_router)
-app.include_router(batch_router)
-app.include_router(ws_router)
 
 
 @app.get("/health", tags=["System"])
 async def health():
     cache_ok = await recipe_cache.ping()
 
-    # Check Celery broker reachability
-    broker_ok = False
-    try:
-        import redis
-        r = redis.from_url(settings.CELERY_BROKER_URL, socket_timeout=2)
-        r.ping()
-        broker_ok = True
-    except Exception:
-        pass
-
     return {
-        "status":       "ok" if (cache_ok and broker_ok) else "degraded",
-        "version":      "2.0.0",
-        "environment":  settings.ENVIRONMENT,
-        "redis_cache":  "ok" if cache_ok  else "down",
-        "celery_broker":"ok" if broker_ok else "down",
-        "pipelines":    ["interactive (queue=interactive)", "batch (queue=batch, 50% cost)"],
-        "worker_docs":  "http://localhost:5555",
+        "status":      "ok" if cache_ok else "degraded",
+        "version":     "3.0.0",
+        "environment": settings.ENVIRONMENT,
+        "redis_cache": "ok" if cache_ok else "down",
     }
 
 
-# Local-preview UI (single static page). Mounted last so it only catches
-# paths not already claimed by the API routes above. There is no real
-# frontend/ app yet (see ADR-003) — this is a stand-in until one exists.
+# Local-preview UI (static pages). Mounted last so it only catches paths not
+# already claimed by the API routes above. There is no real Next.js
+# frontend/ app yet (see ARCHITECTURE.md) — this is a stand-in until one exists.
 app.mount("/", StaticFiles(directory="app/static", html=True), name="static")

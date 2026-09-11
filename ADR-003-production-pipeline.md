@@ -2,7 +2,7 @@
 
 **Status:** Accepted (documents intent; see "Implementation Status" below for what's wired up vs. stubbed)
 **Date:** 2026-09-11
-**Depends on:** [[ADR-002-celery-worker-fleet]] (backend deploy target is the API + Celery worker fleet described there)
+**Depends on:** [[ADR-004-drop-celery-worker-fleet]] (backend deploy target is the single FastAPI service described there — Celery worker fleet was removed 2026-09-11)
 
 ---
 
@@ -25,7 +25,7 @@ Two workflows split the work:
 | 2 | **Security audit** — Bandit (Python), `npm audit` (Node) | Bandit HIGH severity, npm `critical` severity only. Lower severities are reported but non-blocking. |
 | 3 | **Lighthouse baseline** — runs against the built frontend | `categories:accessibility < 0.85` only. Performance/SEO scores are warnings surfaced in the PR/run comment, not blockers. |
 | 4 | **Deploy frontend → Vercel production** | Deploy failure |
-| 5 | **Deploy backend → Fly.io production** (API + Celery workers) | Deploy failure |
+| 5 | **Deploy backend → Fly.io production** (single FastAPI service) | Deploy failure |
 | 6 | **Smoke tests** — `GET /health` on the live API, `GET /` on the live frontend expects 200 | Either check failing flags the deploy immediately. On success, a `production_deploy` event is sent to PostHog (commit SHA, actor, timestamp) so deploys can be correlated with analytics spikes/drops. |
 
 ### Why accessibility is the one hard UI gate
@@ -34,13 +34,14 @@ Performance and SEO regressions are recoverable and don't block anyone from usin
 
 ### Why Fly.io for the backend (Gate 5)
 
-Fly.io was chosen over Railway for the API + Celery worker fleet:
+Fly.io was chosen over Railway for the backend:
 
-- **Cost:** free for 3 shared VMs — enough to run the API and one worker at no cost; additional VMs are ~$1.94/month each, so scaling `worker-batch` stays cheap.
-- **Docker-native:** the fleet is already defined as Docker services in `docker-compose.yml` (ADR-002) — Fly deploys those images directly, no translation layer.
-- **Multi-process app:** Fly's `[processes]` in `fly.toml` maps cleanly onto the api / worker-interactive / worker-batch / beat topology from ADR-002, each scaled independently.
-- **Global edge + fast deploys:** deploys land in ~30 seconds, and edge placement matters for the interactive recipe pipeline's latency budget (soft limit 45s, hard limit 60s).
-- **Redis:** moves to Upstash (free tier, 10k commands/day) rather than a self-hosted Fly Redis app, since Upstash is serverless-billed and needs no capacity planning at this scale.
+- **Cost:** free for 3 shared VMs — comfortably covers a single FastAPI service at no cost.
+- **Docker-native:** deploys the backend's Docker image directly, no translation layer.
+- **Global edge + fast deploys:** deploys land in ~30 seconds, and edge placement matters for the interactive recipe pipeline's <15s P95 latency budget (PRD §5).
+- **Redis:** moves to Upstash (free tier, 10k commands/day) as the nutrition-lookup cache described in `ARCHITECTURE.md` §6, rather than a self-hosted Fly Redis app — Upstash is serverless-billed and needs no capacity planning at this scale.
+
+Note: per [[ADR-004-drop-celery-worker-fleet]], there is no worker fleet to deploy alongside the API anymore — Gate 5 ships a single service.
 
 ### Why Bandit/npm audit only fail on the top severity
 

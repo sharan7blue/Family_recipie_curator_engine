@@ -1,31 +1,26 @@
 """
-PrepLink API Routes (local-preview stub)
-===========================================
-Wires the FastAPI surface to the (stubbed) pipeline. Interactive processing
-tries to dispatch to Celery; if no broker/worker is reachable it falls back
-to running the stub pipeline inline so the preview still works standalone.
+PrepLink API Routes
+=====================
+Per ADR-004: no Celery, no job queue, no WebSocket. Each recipe request is
+processed synchronously in-process (extract -> adapt -> build cart) and the
+finished result is returned in the same HTTP response, matching the PRD's
+<15s P95 cart-build budget. Recipes are then cached in Redis by id so
+share/reload flows can fetch them again afterwards (see recipe_store.py).
 """
 
 from __future__ import annotations
 
 import uuid
 
-from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from app.core.logger import logger
-from app.core.websocket_manager import ws_manager
-from app.schemas.batch import BatchProvider
+from app.core import recipe_store
 from app.schemas.recipe import AgeGroup, DietaryFlag, UnitSystem
-from app.workers import job_store
 
 recipe_router = APIRouter(prefix="/api/recipe", tags=["Recipe"])
 cart_router = APIRouter(prefix="/api/cart", tags=["Cart"])
-batch_router = APIRouter(prefix="/api/batch", tags=["Batch"])
-ws_router = APIRouter(tags=["WebSocket"])
 
-
-# ─── Recipe (interactive) ──────────────────────────────────────────────────
 
 class RecipeProcessRequest(BaseModel):
     url: str
@@ -39,24 +34,23 @@ class RecipeProcessRequest(BaseModel):
 
 @recipe_router.post("/process")
 async def process_recipe(req: RecipeProcessRequest):
-    job_id = str(uuid.uuid4())
-
-    try:
-        from app.workers.tasks.pipeline import process_interactive_recipe
-        process_interactive_recipe.delay(
-            job_id, req.url, req.age_group.value,
-            [f.value for f in req.dietary_filters], req.unit_system.value,
-            req.servings_override, req.include_medium_pantry, req.user_id,
-        )
-        job_store.set_interactive_job(job_id, status="processing")
-        return {"job_id": job_id, "status": "processing", "dispatch": "celery"}
-    except Exception as e:
-        logger.warning(f"[API] Celery dispatch unavailable ({e}); running pipeline inline for local preview")
-
     from app.services import adaptor, cart_builder
     from app.services import extractor as ex
 
+    recipe_id = str(uuid.uuid4())
+
     extracted = await ex.extract_recipe(req.url)
+
+    if req.servings_override and req.servings_override != extracted.metadata.servings:
+        scale = req.servings_override / extracted.metadata.servings
+        extracted = extracted.model_copy(update={
+            "ingredients": [
+                i.model_copy(update={"quantity": round(i.quantity * scale, 3)})
+                for i in extracted.ingredients
+            ],
+            "metadata": extracted.metadata.model_copy(update={"servings": req.servings_override}),
+        })
+
     adapted = await adaptor.run_adaptation_pass(
         recipe=extracted,
         age_group=req.age_group,
@@ -64,89 +58,28 @@ async def process_recipe(req: RecipeProcessRequest):
         unit_system=req.unit_system,
         include_medium_pantry=req.include_medium_pantry,
     )
-    cart = await cart_builder.build_instacart_cart(adapted_recipe=adapted, user_id=req.user_id, recipe_id=job_id)
+    cart = await cart_builder.build_instacart_cart(adapted_recipe=adapted, user_id=req.user_id, recipe_id=recipe_id)
 
     recipe_json = adapted.model_dump(mode="json")
     cart_json = cart.model_dump(mode="json")
-    job_store.set_interactive_job(job_id, status="complete", recipe=recipe_json, cart=cart_json)
-    return {"job_id": job_id, "status": "complete", "recipe": recipe_json, "cart": cart_json, "dispatch": "inline"}
+    recipe_store.save_recipe(recipe_id, recipe_json, cart_json)
+
+    return {"job_id": recipe_id, "status": "complete", "recipe": recipe_json, "cart": cart_json}
 
 
-@recipe_router.get("/process/{job_id}")
-async def get_recipe_status(job_id: str):
-    job = job_store.get_interactive_job(job_id)
-    if not job:
-        raise HTTPException(404, "job not found")
-    return {"job_id": job_id, **job}
+@recipe_router.get("/process/{recipe_id}")
+async def get_recipe(recipe_id: str):
+    stored = recipe_store.get_recipe(recipe_id)
+    if not stored:
+        raise HTTPException(404, "recipe not found")
+    return {"job_id": recipe_id, "status": "complete", **stored}
 
 
 # ─── Cart ───────────────────────────────────────────────────────────────────
 
 @cart_router.get("/{recipe_id}")
 async def get_cart(recipe_id: str):
-    job = job_store.get_interactive_job(recipe_id)
-    if not job or "cart" not in job:
+    stored = recipe_store.get_recipe(recipe_id)
+    if not stored:
         raise HTTPException(404, "cart not found")
-    return job["cart"]
-
-
-# ─── Batch ──────────────────────────────────────────────────────────────────
-
-class BatchJobRequest(BaseModel):
-    items: list[dict]
-    provider: BatchProvider = BatchProvider.OPENAI
-    job_name: str | None = None
-    notify_webhook: str | None = None
-
-
-@batch_router.post("/jobs")
-async def create_batch_job(req: BatchJobRequest):
-    bulk_job_id = str(uuid.uuid4())
-    job_store.create_job(
-        bulk_job_id, total_items=len(req.items), provider=req.provider.value,
-        job_name=req.job_name, notify_webhook=req.notify_webhook,
-    )
-
-    try:
-        from app.workers.tasks.pipeline import run_bulk_pipeline
-        run_bulk_pipeline.delay(bulk_job_id, req.items, req.provider.value, req.notify_webhook or "")
-        dispatch = "celery"
-    except Exception as e:
-        logger.warning(f"[API] Celery dispatch unavailable ({e}); job left queued for local preview")
-        dispatch = "queued-only (no broker reachable)"
-
-    return {"bulk_job_id": bulk_job_id, "status": "queued", "dispatch": dispatch}
-
-
-@batch_router.get("/jobs")
-async def list_batch_jobs(limit: int = 50):
-    return job_store.list_jobs(limit=limit)
-
-
-@batch_router.get("/jobs/{bulk_job_id}")
-async def get_batch_job(bulk_job_id: str):
-    job = job_store.get_job(bulk_job_id)
-    if not job:
-        raise HTTPException(404, "job not found")
-    job["progress_pct"] = job_store.get_job_progress_pct(bulk_job_id)
-    return job
-
-
-@batch_router.get("/jobs/{bulk_job_id}/results")
-async def get_batch_job_results(bulk_job_id: str):
-    results = job_store.get_job_results(bulk_job_id)
-    if not results:
-        raise HTTPException(404, "job not found")
-    return results.model_dump()
-
-
-# ─── WebSocket ──────────────────────────────────────────────────────────────
-
-@ws_router.websocket("/ws/jobs/{job_id}")
-async def job_progress_ws(websocket: WebSocket, job_id: str):
-    await ws_manager.connect(job_id, websocket)
-    try:
-        while True:
-            await websocket.receive_text()
-    except WebSocketDisconnect:
-        ws_manager.disconnect(job_id, websocket)
+    return stored["cart"]

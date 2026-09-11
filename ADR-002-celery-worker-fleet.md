@@ -1,6 +1,6 @@
 # ADR-002 — Batch Processing: Celery + Redis Worker Fleet
 
-**Status:** Accepted (supersedes ADR-001 Option C)  
+**Status:** Superseded by [[ADR-004-drop-celery-worker-fleet]] (2026-09-11)
 **Date:** 2026-09-10  
 **Replaces:** ADR-001 § "Option C — Dual-pipeline within FastAPI"
 
