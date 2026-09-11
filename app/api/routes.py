@@ -39,7 +39,12 @@ async def process_recipe(req: RecipeProcessRequest):
 
     recipe_id = str(uuid.uuid4())
 
-    extracted = await ex.extract_recipe(req.url)
+    try:
+        extracted = await ex.extract_recipe(req.url)
+    except ex.InvalidRecipeUrlError as e:
+        raise HTTPException(400, str(e)) from e
+    except ex.NotARecipeError as e:
+        raise HTTPException(422, str(e)) from e
 
     if req.servings_override and req.servings_override != extracted.metadata.servings:
         scale = req.servings_override / extracted.metadata.servings

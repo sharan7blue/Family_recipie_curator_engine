@@ -44,6 +44,8 @@ class ExtractedRecipe(BaseModel):
     metadata: RecipeMetadata
     ingredients: list[Ingredient]
     steps: list[str] = []
+    confidence: float = 1.0
+    extraction_method: str = "stub"
 
 
 class AdaptedRecipe(BaseModel):
@@ -53,6 +55,8 @@ class AdaptedRecipe(BaseModel):
     age_group: AgeGroup = AgeGroup.ADULT
     dietary_filters: list[DietaryFlag] = []
     warnings: list[str] = []
+    confidence: float = 1.0
+    extraction_method: str = "stub"
 
 
 class LLMIngredientExtractionOutput(BaseModel):

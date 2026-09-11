@@ -56,6 +56,8 @@ async def run_adaptation_pass(
         age_group=age_group,
         dietary_filters=dietary_filters,
         warnings=[],
+        confidence=recipe.confidence,
+        extraction_method=recipe.extraction_method,
     )
 
 

@@ -8,6 +8,7 @@
 <div id="demo-banner" class="w-full bg-tertiary-fixed/40 text-on-tertiary-fixed rounded-xl p-space-sm text-body-sm" hidden>
   Showing example data. <a class="underline font-semibold" href="index.html">Process a recipe from Extract</a> to see a real generated cart.
 </div>
+<div id="confidence-banner" class="w-full rounded-xl p-space-sm text-body-sm" hidden></div>
 
 <div class="w-full bg-primary-container text-on-primary-container rounded-xl p-space-sm shadow-sm flex items-center justify-between">
 <div class="flex items-center space-x-space-xs min-w-0">
@@ -99,6 +100,25 @@ PrepLink provides informational nutrition reference and automated guideline scre
   const dispatchBtn = document.getElementById('instacart-dispatch-btn');
   const shareLink = document.getElementById('share-link');
   const demoBanner = document.getElementById('demo-banner');
+  const confidenceBanner = document.getElementById('confidence-banner');
+
+  function showConfidenceBanner(confidence, extractionMethod) {
+    if (extractionMethod === 'stub_no_gemini_key') {
+      confidenceBanner.hidden = false;
+      confidenceBanner.className = 'w-full rounded-xl p-space-sm text-body-sm bg-surface-container text-on-surface-variant';
+      confidenceBanner.textContent = 'No GEMINI_API_KEY configured — this is placeholder data, not a real extraction.';
+      return;
+    }
+    if (confidence >= 0.75) { confidenceBanner.hidden = true; return; }
+    confidenceBanner.hidden = false;
+    if (confidence >= 0.50) {
+      confidenceBanner.className = 'w-full rounded-xl p-space-sm text-body-sm bg-tertiary-fixed/40 text-on-tertiary-fixed';
+      confidenceBanner.textContent = 'Some quantities were estimated — review before ordering.';
+    } else {
+      confidenceBanner.className = 'w-full rounded-xl p-space-sm text-body-sm bg-error/15 text-error';
+      confidenceBanner.textContent = 'This recipe was partially extracted — we recommend reviewing all quantities.';
+    }
+  }
 
   const DEMO = {
     metadata: { title: 'Golden Coconut Curry Chicken & Sweet Potato', servings: 4 },
@@ -184,6 +204,7 @@ PrepLink provides informational nutrition reference and automated guideline scre
       const tags = [recipe.age_group, ...(recipe.dietary_filters || [])].filter(Boolean).join(' · ');
       metaEl.textContent = `${recipe.metadata.servings} servings · ${tags}`;
       renderChecklist(recipe.ingredients);
+      showConfidenceBanner(recipe.confidence ?? 1.0, recipe.extraction_method);
       cartUrl = cart.instacart_url || DEMO_CART_URL;
       shareLink.href = `share.html?job=${jobId}`;
     } catch (err) {
