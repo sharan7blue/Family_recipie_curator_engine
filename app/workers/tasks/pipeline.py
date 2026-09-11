@@ -175,6 +175,8 @@ def process_interactive_recipe(
     from app.services import adaptor, cart_builder
     from app.services import extractor as ex
 
+    job_store.set_interactive_job(job_id, status="processing")
+
     async def _run_pipeline():
         await ws_manager.push_job_progress(job_id, user_id, "extracting", 15, "Fetching recipe…")
 
@@ -212,22 +214,26 @@ def process_interactive_recipe(
     loop = asyncio.new_event_loop()
     try:
         adapted, cart = loop.run_until_complete(_run_pipeline())
+        recipe_json = adapted.model_dump(mode="json")
+        cart_json = cart.model_dump(mode="json")
         result = {
             "status":  "complete",
-            "recipe":  adapted.model_dump(),
-            "cart":    cart.model_dump(),
+            "recipe":  recipe_json,
+            "cart":    cart_json,
         }
+        job_store.set_interactive_job(job_id, status="complete", recipe=recipe_json, cart=cart_json)
         # Push completion over WebSocket
         loop.run_until_complete(
             ws_manager.push_job_complete(
                 job_id, user_id,
-                recipe=adapted.model_dump(),
-                cart=cart.model_dump(),
+                recipe=recipe_json,
+                cart=cart_json,
                 processing_time_ms=0,
             )
         )
         return result
     except Exception as e:
+        job_store.set_interactive_job(job_id, status="error", error=str(e))
         loop.run_until_complete(ws_manager.push_job_error(job_id, user_id, str(e)))
         raise
     finally:

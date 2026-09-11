@@ -24,9 +24,6 @@ cart_router = APIRouter(prefix="/api/cart", tags=["Cart"])
 batch_router = APIRouter(prefix="/api/batch", tags=["Batch"])
 ws_router = APIRouter(tags=["WebSocket"])
 
-_interactive_results: dict[str, dict] = {}
-_carts: dict[str, dict] = {}
-
 
 # ─── Recipe (interactive) ──────────────────────────────────────────────────
 
@@ -51,7 +48,7 @@ async def process_recipe(req: RecipeProcessRequest):
             [f.value for f in req.dietary_filters], req.unit_system.value,
             req.servings_override, req.include_medium_pantry, req.user_id,
         )
-        _interactive_results[job_id] = {"status": "processing", "dispatch": "celery"}
+        job_store.set_interactive_job(job_id, status="processing")
         return {"job_id": job_id, "status": "processing", "dispatch": "celery"}
     except Exception as e:
         logger.warning(f"[API] Celery dispatch unavailable ({e}); running pipeline inline for local preview")
@@ -69,28 +66,28 @@ async def process_recipe(req: RecipeProcessRequest):
     )
     cart = await cart_builder.build_instacart_cart(adapted_recipe=adapted, user_id=req.user_id, recipe_id=job_id)
 
-    result = {"status": "complete", "recipe": adapted.model_dump(), "cart": cart.model_dump()}
-    _interactive_results[job_id] = result
-    _carts[job_id] = cart.model_dump()
-    return {"job_id": job_id, **result, "dispatch": "inline"}
+    recipe_json = adapted.model_dump(mode="json")
+    cart_json = cart.model_dump(mode="json")
+    job_store.set_interactive_job(job_id, status="complete", recipe=recipe_json, cart=cart_json)
+    return {"job_id": job_id, "status": "complete", "recipe": recipe_json, "cart": cart_json, "dispatch": "inline"}
 
 
 @recipe_router.get("/process/{job_id}")
 async def get_recipe_status(job_id: str):
-    result = _interactive_results.get(job_id)
-    if not result:
+    job = job_store.get_interactive_job(job_id)
+    if not job:
         raise HTTPException(404, "job not found")
-    return {"job_id": job_id, **result}
+    return {"job_id": job_id, **job}
 
 
 # ─── Cart ───────────────────────────────────────────────────────────────────
 
 @cart_router.get("/{recipe_id}")
 async def get_cart(recipe_id: str):
-    cart = _carts.get(recipe_id)
-    if not cart:
+    job = job_store.get_interactive_job(recipe_id)
+    if not job or "cart" not in job:
         raise HTTPException(404, "cart not found")
-    return cart
+    return job["cart"]
 
 
 # ─── Batch ──────────────────────────────────────────────────────────────────

@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     CELERY_TASK_TIME_LIMIT: int = 7200
 
     BULK_JOB_TTL_SECONDS: int = 86400 * 7
+    INTERACTIVE_JOB_TTL_SECONDS: int = 3600
 
     OPENAI_API_KEY: str = ""
     ANTHROPIC_API_KEY: str = ""

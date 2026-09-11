@@ -11,12 +11,14 @@ Key schema:
   bulk_job:{id}              → Redis Hash   (job metadata)
   bulk_job:{id}:items        → Redis Hash   (custom_id → JSON result per item)
   bulk_job:{id}:prov_batches → Redis List   (provider batch IDs)
+  interactive_job:{id}       → Redis String (JSON: status/recipe/cart/error)
 
 All values are JSON-serialised strings.
 """
 
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime
 
 import redis
@@ -41,6 +43,7 @@ def _now() -> str:
 
 
 JOB_TTL = settings.BULK_JOB_TTL_SECONDS   # 7 days
+INTERACTIVE_JOB_TTL = settings.INTERACTIVE_JOB_TTL_SECONDS   # 1 hour
 
 
 # ─── Write helpers ────────────────────────────────────────────────────────────
@@ -180,3 +183,34 @@ def list_jobs(limit: int = 50) -> list[dict]:
         data["progress_pct"] = round(done / max(data["total_items"], 1) * 100, 1)
         jobs.append(data)
     return sorted(jobs, key=lambda j: j.get("created_at", ""), reverse=True)
+
+
+# ─── Interactive (single-recipe) jobs ─────────────────────────────────────────
+# Separate from the bulk_job:* keys above: the API process dispatches these to
+# a Celery worker, so status/result must live somewhere both processes can
+# reach — an in-memory dict on the API side can never see a worker's write.
+
+def set_interactive_job(
+    job_id: str,
+    status: str,
+    recipe: dict | None = None,
+    cart: dict | None = None,
+    error: str | None = None,
+) -> None:
+    r = _redis()
+    payload: dict = {"status": status, "updated_at": _now()}
+    if recipe is not None:
+        payload["recipe"] = recipe
+    if cart is not None:
+        payload["cart"] = cart
+    if error is not None:
+        payload["error"] = error
+    r.set(f"interactive_job:{job_id}", json.dumps(payload), ex=INTERACTIVE_JOB_TTL)
+
+
+def get_interactive_job(job_id: str) -> dict | None:
+    r = _redis()
+    raw = r.get(f"interactive_job:{job_id}")
+    if not raw:
+        return None
+    return json.loads(raw)
