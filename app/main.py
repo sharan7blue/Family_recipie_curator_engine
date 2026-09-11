@@ -22,6 +22,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import batch_router, cart_router, recipe_router, ws_router
 from app.core.cache import recipe_cache
@@ -125,3 +126,9 @@ async def health():
         "pipelines":    ["interactive (queue=interactive)", "batch (queue=batch, 50% cost)"],
         "worker_docs":  "http://localhost:5555",
     }
+
+
+# Local-preview UI (single static page). Mounted last so it only catches
+# paths not already claimed by the API routes above. There is no real
+# frontend/ app yet (see ADR-003) — this is a stand-in until one exists.
+app.mount("/", StaticFiles(directory="app/static", html=True), name="static")
