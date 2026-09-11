@@ -150,7 +150,7 @@ jobs:
 
   # ─── Gate 5 — Deploy backend to Fly.io ─────────────────────────────────────
   gate-5-deploy-backend:
-    name: "Gate 5 — Deploy backend (Fly.io: API + Celery workers)"
+    name: "Gate 5 — Deploy backend (Fly.io: FastAPI service)"
     needs: gate-4-deploy-frontend
     runs-on: ubuntu-latest
     steps:
@@ -158,10 +158,9 @@ jobs:
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
-      # TODO(gate-5): requires FLY_API_TOKEN repo secret and a fly.toml
-      # (one app per process: api, worker-interactive, worker-batch, beat —
-      # see ADR-002 for the process topology this maps onto). Guarded so
-      # this doesn't hard-fail every merge until fly.toml exists.
+      # TODO(gate-5): requires FLY_API_TOKEN repo secret and a fly.toml for
+      # the single FastAPI service (see ADR-004 — no worker fleet anymore).
+      # Guarded so this doesn't hard-fail every merge until fly.toml exists.
       - name: Deploy to Fly.io production
         run: |
           if [ -f "fly.toml" ] && [ -n "${{ secrets.FLY_API_TOKEN }}" ]; then
