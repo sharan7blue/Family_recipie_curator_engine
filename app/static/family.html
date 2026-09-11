@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>PrepLink</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-low": "#eff4ff", "tertiary": "#4a2500", "surface": "#f8f9ff", "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "primary": "#033621", "primary-container": "#1f4d36", "on-primary-container": "#8dbd9f", "surface-container-high": "#dce9ff", "secondary-container": "#e6e2de", "on-secondary-container": "#666461", "on-surface": "#0d1c2e", "on-surface-variant": "#414943", "surface-container": "#e6eeff", "surface-tint": "#3a674f", "error": "#ba1a1a" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" } } } };</script><style>body { min-height: max(884px, 100dvh); }</style>
+</head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen">
+<header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin-mobile flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">PrepLink</span></div></header>
+<main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full pb-20">
+<div class="px-margin-mobile pt-space-md space-y-space-lg">
+
+<div class="flex items-center justify-between gap-space-sm">
+<div class="min-w-0">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md mb-1"><span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>Local Preview</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight" style="font-size:24px;line-height:32px;font-weight:700;">Family &amp; Safety Rules</h1>
+</div>
+</div>
+
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-16 h-16 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-2xl shrink-0">L</div>
+<div class="flex-1 min-w-0">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate">Lena Sterling</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">14 months · Toddler (1–3 yr bracket)</p>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">This is the only profile used by the Extract flow right now — multi-child household profiles are a Phase 2 roadmap item.</p>
+</div>
+
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Safety Rules</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="rules-saved-hint"></span>
+</div>
+<div class="space-y-2.5" id="rules-list"></div>
+</div>
+
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<div><h2 class="font-headline-sm text-headline-sm text-on-surface">My Pantry Staples</h2><p class="font-body-sm text-body-sm text-on-surface-variant">Saved in this browser (localStorage) — not synced to a server yet.</p></div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex flex-wrap gap-2" id="pantry-chips-container"></div>
+<form id="add-staple-form" class="flex items-center gap-2 mt-space-sm">
+<input id="add-staple-input" type="text" placeholder="Add a staple (e.g. Olive Oil)" class="flex-1 px-space-sm py-2 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none"/>
+<button type="submit" class="px-space-sm py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md">Add</button>
+</form>
+</div>
+</div>
+
+</div>
+</div></main>
+<nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(30,41,59,0.05)]"><div class="flex justify-around items-center h-16 px-space-xs">
+<a class="flex flex-col items-center justify-center min-w-touch-min min-h-touch-min px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" href="index.html"><span class="material-symbols-outlined text-[24px]">content_paste_search</span><span class="font-label-sm text-label-sm mt-0.5">Extract</span></a>
+<a class="flex flex-col items-center justify-center min-w-touch-min min-h-touch-min px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" href="recipe.html"><span class="material-symbols-outlined text-[24px]">shopping_basket</span><span class="font-label-sm text-label-sm mt-0.5">Cart</span></a>
+<a class="flex flex-col items-center justify-center min-w-touch-min min-h-touch-min px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" href="tracker.html"><span class="material-symbols-outlined text-[24px]">monitoring</span><span class="font-label-sm text-label-sm mt-0.5">Tracker</span></a>
+<a class="flex flex-col items-center justify-center min-w-touch-min min-h-touch-min px-space-xs transition-colors text-primary font-bold" href="family.html"><span class="material-symbols-outlined text-[24px]">supervisor_account</span><span class="font-label-sm text-label-sm mt-0.5">Family</span></a>
+</div></nav>
+<script>
+(function() {
+  const STORAGE_KEY_PANTRY = 'preplink.pantry.v1';
+  const STORAGE_KEY_RULES = 'preplink.safety_rules.v1';
+
+  const DEFAULT_PANTRY = ['Olive Oil', 'Black Pepper', 'Kosher Salt', 'Cinnamon'];
+  const RULES = [
+    { key: 'botulism', icon: 'shield', title: 'Infant Botulism Protection', desc: 'Mandatory lock under 24 months — honey auto-swapped for maple syrup.' },
+    { key: 'choking', icon: 'emergency_heat', title: 'Choking Hazard Interceptor', desc: 'Whole nuts and popcorn auto-flagged and blocked.' },
+    { key: 'sodium', icon: 'water_drop', title: 'Sodium & Renal Load Regulator', desc: 'Added salt in preparation reduced automatically.' },
+  ];
+
+  function loadPantry() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_PANTRY)) || DEFAULT_PANTRY.slice(); }
+    catch { return DEFAULT_PANTRY.slice(); }
+  }
+  function savePantry(items) {
+    try { localStorage.setItem(STORAGE_KEY_PANTRY, JSON.stringify(items)); showSaved(); } catch {}
+  }
+  function loadRules() {
+    try { return { ...Object.fromEntries(RULES.map(r => [r.key, true])), ...JSON.parse(localStorage.getItem(STORAGE_KEY_RULES)) }; }
+    catch { return Object.fromEntries(RULES.map(r => [r.key, true])); }
+  }
+  function saveRules(state) {
+    try { localStorage.setItem(STORAGE_KEY_RULES, JSON.stringify(state)); showSaved(); } catch {}
+  }
+  function showSaved() {
+    const hint = document.getElementById('rules-saved-hint');
+    hint.textContent = 'Saved';
+    clearTimeout(showSaved._t);
+    showSaved._t = setTimeout(() => { hint.textContent = ''; }, 1200);
+  }
+
+  function renderPantry() {
+    const items = loadPantry();
+    const container = document.getElementById('pantry-chips-container');
+    container.innerHTML = items.map((name, i) => `
+      <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md">
+        ${escapeHtml(name)}
+        <button data-idx="${i}" aria-label="Remove ${escapeHtml(name)}" class="remove-staple text-on-secondary-container hover:text-error flex items-center justify-center" type="button">
+          <span class="material-symbols-outlined text-[16px]">close</span>
+        </button>
+      </span>`).join('');
+    container.querySelectorAll('.remove-staple').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const items = loadPantry();
+        items.splice(Number(btn.dataset.idx), 1);
+        savePantry(items);
+        renderPantry();
+      });
+    });
+  }
+
+  function renderRules() {
+    const state = loadRules();
+    document.getElementById('rules-list').innerHTML = RULES.map(r => `
+      <div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm space-y-2">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0 text-on-secondary-container mt-0.5"><span class="material-symbols-outlined text-[20px]">${r.icon}</span></div>
+            <div><h3 class="font-label-lg text-label-lg text-on-surface">${r.title}</h3><p class="font-body-sm text-body-sm text-on-surface-variant">${r.desc}</p></div>
+          </div>
+          <button data-key="${r.key}" aria-label="Toggle ${r.title}" class="rule-toggle w-11 h-6 ${state[r.key] ? 'bg-primary' : 'bg-secondary-container'} rounded-full relative p-0.5 transition-colors flex-shrink-0" type="button">
+            <span class="block w-5 h-5 bg-surface-container-lowest rounded-full shadow-sm transform ${state[r.key] ? 'translate-x-5' : 'translate-x-0'} transition-transform"></span>
+          </button>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('.rule-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const state = loadRules();
+        state[btn.dataset.key] = !state[btn.dataset.key];
+        saveRules(state);
+        renderRules();
+      });
+    });
+  }
+
+  document.getElementById('add-staple-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('add-staple-input');
+    const name = input.value.trim();
+    if (!name) return;
+    const items = loadPantry();
+    items.push(name);
+    savePantry(items);
+    input.value = '';
+    renderPantry();
+  });
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  renderPantry();
+  renderRules();
+})();
+</script>
+</body></html>

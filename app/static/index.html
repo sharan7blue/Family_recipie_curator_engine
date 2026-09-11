@@ -1,225 +1,253 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>PrepLink — Local Preview</title>
-<style>
-  :root {
-    --bg: #f7f7f5;
-    --card: #ffffff;
-    --border: #e4e2dd;
-    --text: #1f1e1c;
-    --muted: #6b6862;
-    --accent: #d97a3d;
-    --accent-ink: #ffffff;
-    --ok: #3d8b5f;
-    --err: #c0432f;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    padding: 32px 16px 64px;
-  }
-  .wrap { max-width: 720px; margin: 0 auto; }
-  header { margin-bottom: 28px; }
-  h1 { font-size: 22px; margin: 0 0 4px; }
-  .sub { color: var(--muted); font-size: 13px; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12px; color: var(--muted); margin-top: 10px;
-  }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #aaa; }
-  .dot.ok { background: var(--ok); }
-  .dot.down { background: var(--err); }
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>PrepLink</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; } body { overscroll-behavior: none; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-low": "#eff4ff", "tertiary": "#4a2500", "on-tertiary-container": "#ff993b", "error": "#ba1a1a", "on-secondary-fixed-variant": "#484644", "inverse-on-surface": "#eaf1ff", "surface-tint": "#3a674f", "on-tertiary-fixed": "#2f1500", "inverse-surface": "#233144", "on-background": "#0d1c2e", "error-container": "#ffdad6", "on-secondary": "#ffffff", "surface": "#f8f9ff", "inverse-primary": "#a0d2b3", "surface-container-lowest": "#ffffff", "outline": "#717972", "secondary-fixed-dim": "#cac6c2", "surface-dim": "#ccdbf3", "background": "#f8f9ff", "on-surface": "#0d1c2e", "on-primary-fixed": "#002112", "primary-container": "#1f4d36", "on-tertiary": "#ffffff", "surface-bright": "#f8f9ff", "surface-container-highest": "#d5e3fc", "on-primary-container": "#8dbd9f", "tertiary-container": "#6b3700", "primary": "#033621", "primary-fixed": "#bceece", "surface-variant": "#d5e3fc", "tertiary-fixed": "#ffdcc3", "secondary-container": "#e6e2de", "secondary-fixed": "#e6e2de", "primary-fixed-dim": "#a0d2b3", "surface-container-high": "#dce9ff", "on-tertiary-fixed-variant": "#6e3900", "on-secondary-fixed": "#1d1b19", "outline-variant": "#c0c9c1", "surface-container": "#e6eeff", "on-primary-fixed-variant": "#214f38", "secondary": "#605e5b", "on-surface-variant": "#414943", "on-error-container": "#93000a", "on-secondary-container": "#666461", "on-error": "#ffffff", "tertiary-fixed-dim": "#ffb77d", "on-primary": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-lg": "1.25rem", "touch-min": "44px", "space-md": "1rem", "margin-mobile": "1.25rem", "space-xs": "0.5rem", "space-2xs": "0.25rem", "space-2xl": "2rem", "gutter-mobile": "1rem", "space-xl": "1.5rem", "space-sm": "0.75rem", "space-3xl": "2.5rem" }, fontFamily: { "display-lg": ["Plus Jakarta Sans"], "label-lg": ["Manrope"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-sm": ["Manrope"], "headline-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "label-md": ["Manrope"], "body-md": ["Manrope"], "headline-sm": ["Plus Jakarta Sans"], "body-lg": ["Manrope"], "label-sm": ["Manrope"] }, fontSize: { "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }], "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }], "headline-lg-mobile": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "700" }], "body-sm": ["13px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "400" }], "headline-md": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.015em", fontWeight: "700" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "body-md": ["15px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }], "headline-sm": ["18px", { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "600" }], "body-lg": ["16px", { lineHeight: "26px", letterSpacing: "0em", fontWeight: "400" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "700" }] } } } };</script><style>
+    body { min-height: max(884px, 100dvh); }
+    .stage-pending .stage-dot { background: var(--tw-color-surface-container-high, #dce9ff); color: #717972; }
+    .stage-active .stage-dot { background: #ffdcc3; color: #4a2500; }
+    .stage-done .stage-dot { background: #bceece; color: #002112; }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">PrepLink</span></div><button class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-secondary-container/60 hover:bg-secondary-container transition-colors min-h-touch-min max-w-[170px]" type="button"><span class="w-2 h-2 rounded-full bg-primary flex-shrink-0"></span><span class="font-label-md text-label-md text-on-surface truncate">Lena · 14mo Toddler</span><span class="material-symbols-outlined text-on-surface-variant text-[18px] flex-shrink-0">expand_more</span></button><div class="flex items-center justify-end"><span id="health-dot" class="w-2.5 h-2.5 rounded-full bg-outline" title="API status"></span></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full pb-12">
 
-  form.card, .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-  label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6px; }
-  label:first-of-type { margin-top: 0; }
-  input[type="text"], select {
-    width: 100%; padding: 10px 12px; font-size: 14px;
-    border: 1px solid var(--border); border-radius: 8px; background: #fff; color: var(--text);
-  }
-  .checks { display: flex; flex-wrap: wrap; gap: 10px 16px; }
-  .checks label { display: flex; align-items: center; gap: 6px; font-weight: 400; font-size: 13px; margin: 0; }
-  button {
-    margin-top: 18px; width: 100%; padding: 11px; border: none; border-radius: 8px;
-    background: var(--accent); color: var(--accent-ink); font-size: 14px; font-weight: 600; cursor: pointer;
-  }
-  button:disabled { opacity: 0.6; cursor: default; }
-
-  #status { font-size: 13px; color: var(--muted); margin: 4px 0 0; min-height: 18px; }
-  #status.err { color: var(--err); }
-
-  .card h2 { margin: 0 0 4px; font-size: 18px; }
-  .card h3 { margin: 16px 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
-  .meta { color: var(--muted); font-size: 13px; }
-  ul, ol { margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6; }
-  .cart-link {
-    display: inline-block; margin-top: 12px; font-size: 13px; font-weight: 600;
-    color: var(--accent); text-decoration: none;
-  }
-  .stub-note {
-    font-size: 11px; color: var(--muted); border-top: 1px dashed var(--border);
-    margin-top: 14px; padding-top: 10px;
-  }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <h1>PrepLink</h1>
-    <div class="sub">Social recipe URL → age-adapted, pantry-aware Instacart cart</div>
-    <div class="badge"><span class="dot" id="health-dot"></span><span id="health-text">checking API…</span></div>
-  </header>
-
-  <form class="card" id="recipe-form">
-    <label for="url">Recipe URL</label>
-    <input type="text" id="url" name="url" placeholder="https://tiktok.com/@chef/video/123" required />
-
-    <label for="age_group">Age group</label>
-    <select id="age_group" name="age_group">
-      <option value="infant">Infant</option>
-      <option value="toddler">Toddler</option>
-      <option value="child">Child</option>
-      <option value="teen">Teen</option>
-      <option value="adult" selected>Adult</option>
-    </select>
-
-    <label>Dietary filters</label>
-    <div class="checks">
-      <label><input type="checkbox" name="dietary_filters" value="vegetarian" /> Vegetarian</label>
-      <label><input type="checkbox" name="dietary_filters" value="vegan" /> Vegan</label>
-      <label><input type="checkbox" name="dietary_filters" value="gluten_free" /> Gluten-free</label>
-      <label><input type="checkbox" name="dietary_filters" value="dairy_free" /> Dairy-free</label>
-      <label><input type="checkbox" name="dietary_filters" value="nut_free" /> Nut-free</label>
-    </div>
-
-    <button type="submit" id="submit-btn">Process recipe</button>
-    <div id="status"></div>
-  </form>
-
-  <div id="result"></div>
+<section class="px-margin-mobile pt-space-xs pb-space-sm">
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-primary-fixed/30 pointer-events-none blur-xl"></div>
+<div class="flex items-start gap-space-sm relative z-10">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
 </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Recipe Extraction</span>
+<h1 class="font-headline-sm text-headline-sm text-on-surface leading-snug">Turn any recipe video into a toddler-safe cart</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Local preview — extraction and safety scoring are stubbed with placeholder data (see ROADMAP.md Phase 0).</p>
+</div>
+</div>
+</div>
+</section>
 
+<section class="px-margin-mobile py-space-xs flex flex-col gap-space-sm">
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-md flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs bg-surface-container rounded-lg px-space-sm py-2">
+<span class="material-symbols-outlined text-primary text-[22px] shrink-0">smart_display</span>
+<input aria-label="Recipe video URL" class="w-full bg-transparent font-body-sm text-body-sm text-on-surface focus:outline-none min-w-0 truncate selection:bg-primary-fixed" id="youtube-url-input" type="text" placeholder="https://youtube.com/shorts/…"/>
+<button aria-label="Clear link input" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" id="clear-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+<div class="flex items-center justify-between gap-space-xs pt-1">
+<button class="flex items-center gap-1.5 px-space-sm py-2 rounded-lg bg-surface-container-high hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors min-h-touch-min" id="paste-btn" type="button">
+<span class="material-symbols-outlined text-error text-[18px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+<span>Paste Short</span>
+</button>
+<div class="flex items-center gap-1.5 px-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+<span class="font-label-sm text-label-sm">Local Preview API</span>
+</div>
+</div>
+<button class="w-full h-[52px] rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-space-xs shadow-md hover:bg-primary-container active:scale-[0.99] transition-all min-h-touch-min mt-1" id="audit-cart-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">grocery</span>
+<span id="audit-btn-label">Audit &amp; Build Cart</span>
+<span class="material-symbols-outlined text-[18px] ml-0.5">arrow_forward</span>
+</button>
+<div id="form-status" class="font-label-sm text-label-sm text-error min-h-[16px] px-1"></div>
+</div>
+</section>
+
+<section class="px-margin-mobile pt-space-xs">
+<div class="flex items-center justify-between px-space-md py-2.5 rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-tint shrink-0 animate-pulse"></span>
+<div class="flex items-baseline gap-1 truncate">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Auditing against:</span>
+<span class="font-label-lg text-label-lg text-on-surface truncate">Lena (14mo, Toddler)</span>
+</div>
+</div>
+<a class="font-label-md text-label-md text-primary hover:underline shrink-0 ml-2" href="family.html">
+        Change
+      </a>
+</div>
+</section>
+
+<section class="px-margin-mobile pt-space-md flex flex-col gap-space-xs" id="pipeline-section" hidden>
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">neurology</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Extraction Pipeline</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="pipeline-pct">0%</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm" id="pipeline-steps">
+<!-- steps injected by JS -->
+</div>
+</section>
+
+<section class="px-margin-mobile pt-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between pb-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">About this preview</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+  Submitting a URL dispatches a real Celery task through the worker fleet described in ADR-002, and streams live
+  progress back over a WebSocket. The recipe content itself (ingredients, transcript, nutrition scoring) is
+  stubbed placeholder data until the Phase 0 build items in <code>ROADMAP.md</code> are implemented — see
+  <a class="text-primary hover:underline" href="https://github.com/sharan7blue/Family_recipie_curator_engine" target="_blank" rel="noopener">the repo</a>.
+</p>
+</div>
+</section>
+
+</div></main>
+<nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(30,41,59,0.05)]"><div class="flex justify-around items-center h-16 px-space-xs">
+<a class="flex flex-col items-center justify-center min-w-touch-min min-h-touch-min px-space-xs transition-colors text-primary font-bold" href="index.html"><span class="material-symbols-outlined text-[24px]">content_paste_search</span><span class="font-label-sm text-label-sm mt-0.5">Extract</span></a>
+<a class="flex flex-col items-center justify-center min-w-touch-min min-h-touch-min px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" href="recipe.html"><span class="material-symbols-outlined text-[24px]">shopping_basket</span><span class="font-label-sm text-label-sm mt-0.5">Cart</span></a>
+<a class="flex flex-col items-center justify-center min-w-touch-min min-h-touch-min px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" href="tracker.html"><span class="material-symbols-outlined text-[24px]">monitoring</span><span class="font-label-sm text-label-sm mt-0.5">Tracker</span></a>
+<a class="flex flex-col items-center justify-center min-w-touch-min min-h-touch-min px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" href="family.html"><span class="material-symbols-outlined text-[24px]">supervisor_account</span><span class="font-label-sm text-label-sm mt-0.5">Family</span></a>
+</div></nav>
 <script>
-  const form = document.getElementById('recipe-form');
-  const statusEl = document.getElementById('status');
-  const resultEl = document.getElementById('result');
-  const submitBtn = document.getElementById('submit-btn');
+(function() {
+  const input = document.getElementById('youtube-url-input');
+  const clearBtn = document.getElementById('clear-btn');
+  const pasteBtn = document.getElementById('paste-btn');
+  const auditBtn = document.getElementById('audit-cart-btn');
+  const auditLabel = document.getElementById('audit-btn-label');
+  const formStatus = document.getElementById('form-status');
+  const pipelineSection = document.getElementById('pipeline-section');
+  const pipelineSteps = document.getElementById('pipeline-steps');
+  const pipelinePct = document.getElementById('pipeline-pct');
   const healthDot = document.getElementById('health-dot');
-  const healthText = document.getElementById('health-text');
+
+  const STAGES = [
+    { key: 'extracting',     label: 'Fetching + parsing recipe video' },
+    { key: 'adapting',       label: 'Applying age-adaptation + safety rules' },
+    { key: 'cart_building',  label: 'Building Instacart cart' },
+  ];
+
+  function renderStages(activeKey, doneKeys) {
+    pipelineSteps.innerHTML = STAGES.map(s => {
+      const isDone = doneKeys.includes(s.key);
+      const isActive = s.key === activeKey && !isDone;
+      const cls = isDone ? 'stage-done' : (isActive ? 'stage-active' : 'stage-pending');
+      const icon = isDone ? 'check' : (isActive ? 'autorenew' : 'circle');
+      const spin = isActive ? 'animate-spin' : '';
+      return `<div class="flex items-start gap-space-sm ${cls}">
+        <div class="stage-dot w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${spin}">
+          <span class="material-symbols-outlined text-[16px] font-bold">${icon}</span>
+        </div>
+        <span class="font-label-md text-label-md text-on-surface mt-0.5">${s.label}</span>
+      </div>`;
+    }).join('<div class="w-0.5 h-3 bg-surface-container-high ml-3 -my-2"></div>');
+  }
 
   async function checkHealth() {
     try {
       const r = await fetch('/health');
       const d = await r.json();
-      healthDot.className = 'dot ' + (d.status === 'ok' ? 'ok' : 'down');
-      healthText.textContent = `API ${d.status} · redis ${d.redis_cache} · celery ${d.celery_broker}`;
+      healthDot.className = 'w-2.5 h-2.5 rounded-full ' + (d.status === 'ok' ? 'bg-primary' : 'bg-error');
+      healthDot.title = `API ${d.status} · redis ${d.redis_cache} · celery ${d.celery_broker}`;
     } catch {
-      healthDot.className = 'dot down';
-      healthText.textContent = 'API unreachable';
+      healthDot.className = 'w-2.5 h-2.5 rounded-full bg-error';
+      healthDot.title = 'API unreachable';
     }
   }
   checkHealth();
   setInterval(checkHealth, 8000);
 
-  let pollTimer = null;
+  if (clearBtn && input) {
+    clearBtn.addEventListener('click', () => { input.value = ''; input.focus(); });
+  }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    clearInterval(pollTimer);
-    resultEl.innerHTML = '';
-    statusEl.className = '';
-    submitBtn.disabled = true;
+  if (pasteBtn && input) {
+    pasteBtn.addEventListener('click', async () => {
+      try {
+        if (navigator.clipboard && navigator.clipboard.readText) {
+          const text = await navigator.clipboard.readText();
+          if (text) input.value = text;
+        }
+      } catch (e) { /* clipboard permission denied — leave input as-is */ }
+      input.classList.add('bg-primary-fixed/20');
+      setTimeout(() => input.classList.remove('bg-primary-fixed/20'), 400);
+    });
+  }
 
-    const dietary_filters = [...form.querySelectorAll('input[name="dietary_filters"]:checked')].map(el => el.value);
-    const body = { url: form.url.value, age_group: form.age_group.value, dietary_filters };
+  function setBusy(busy) {
+    auditBtn.disabled = busy;
+    auditLabel.textContent = busy ? 'Processing…' : 'Audit & Build Cart';
+  }
 
-    statusEl.textContent = 'Submitting…';
+  auditBtn.addEventListener('click', async () => {
+    formStatus.textContent = '';
+    const url = input.value.trim();
+    if (!url) { formStatus.textContent = 'Enter a recipe video URL first.'; return; }
+
+    setBusy(true);
+    pipelineSection.hidden = false;
+    renderStages(null, []);
+    pipelinePct.textContent = '0%';
+
+    let resp, data;
     try {
-      const resp = await fetch('/api/recipe/process', {
+      resp = await fetch('/api/recipe/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ url, age_group: 'toddler', dietary_filters: [] }),
       });
-      if (!resp.ok) {
-        const err = await resp.json().catch(() => ({}));
-        throw new Error(err.detail || `HTTP ${resp.status}`);
-      }
-      const data = await resp.json();
-      if (data.status === 'complete') {
-        finish(data);
-      } else {
-        statusEl.textContent = `Dispatched via ${data.dispatch} — processing…`;
-        poll(data.job_id);
-      }
+      data = await resp.json();
+      if (!resp.ok) throw new Error(data.detail || `HTTP ${resp.status}`);
     } catch (err) {
-      fail(err.message);
+      formStatus.textContent = 'Error: ' + err.message;
+      setBusy(false);
+      return;
+    }
+
+    if (data.status === 'complete') {
+      window.location.href = `recipe.html?job=${data.job_id}`;
+      return;
+    }
+
+    const wsProto = location.protocol === 'https:' ? 'wss' : 'ws';
+    const ws = new WebSocket(`${wsProto}://${location.host}/ws/jobs/${data.job_id}`);
+    const doneKeys = [];
+
+    ws.onmessage = (ev) => {
+      const msg = JSON.parse(ev.data);
+      if (msg.type === 'progress') {
+        pipelinePct.textContent = msg.pct + '%';
+        STAGES.forEach(s => { if (STAGES.findIndex(x => x.key === s.key) < STAGES.findIndex(x => x.key === msg.stage)) {
+          if (!doneKeys.includes(s.key)) doneKeys.push(s.key);
+        }});
+        renderStages(msg.stage, doneKeys);
+      } else if (msg.type === 'complete') {
+        pipelinePct.textContent = '100%';
+        renderStages(null, STAGES.map(s => s.key));
+        ws.close();
+        setTimeout(() => { window.location.href = `recipe.html?job=${data.job_id}`; }, 400);
+      } else if (msg.type === 'error') {
+        formStatus.textContent = 'Error: ' + msg.error;
+        ws.close();
+        setBusy(false);
+      }
+    };
+    ws.onerror = () => {
+      // Fall back to polling if the WebSocket can't connect (e.g. proxy strips it)
+      pollStatus(data.job_id);
+    };
+
+    async function pollStatus(jobId) {
+      const timer = setInterval(async () => {
+        try {
+          const r = await fetch(`/api/recipe/process/${jobId}`);
+          if (r.status === 404) return;
+          const d = await r.json();
+          if (d.status === 'complete') {
+            clearInterval(timer);
+            window.location.href = `recipe.html?job=${jobId}`;
+          } else if (d.status === 'error') {
+            clearInterval(timer);
+            formStatus.textContent = 'Error: ' + (d.error || 'unknown');
+            setBusy(false);
+          }
+        } catch (e) { clearInterval(timer); formStatus.textContent = 'Error: ' + e.message; setBusy(false); }
+      }, 700);
     }
   });
-
-  function poll(jobId) {
-    pollTimer = setInterval(async () => {
-      try {
-        const resp = await fetch(`/api/recipe/process/${jobId}`);
-        if (resp.status === 404) return; // job_store write hasn't landed yet
-        const data = await resp.json();
-        if (data.status === 'complete') {
-          clearInterval(pollTimer);
-          finish(data);
-        } else if (data.status === 'error') {
-          clearInterval(pollTimer);
-          fail(data.error || 'unknown error');
-        }
-      } catch (err) {
-        clearInterval(pollTimer);
-        fail(err.message);
-      }
-    }, 500);
-  }
-
-  function fail(message) {
-    statusEl.textContent = 'Error: ' + message;
-    statusEl.className = 'err';
-    submitBtn.disabled = false;
-  }
-
-  function finish(data) {
-    statusEl.textContent = 'Done';
-    submitBtn.disabled = false;
-    const r = data.recipe, c = data.cart;
-    const tags = [r.age_group, ...(r.dietary_filters || [])].join(' · ');
-    resultEl.innerHTML = `
-      <div class="card">
-        <h2>${escapeHtml(r.metadata.title)}</h2>
-        <div class="meta">${r.metadata.servings} servings · ${escapeHtml(tags)}</div>
-        <h3>Ingredients</h3>
-        <ul>${r.ingredients.map(i => `<li>${i.quantity} ${escapeHtml(i.unit)} ${escapeHtml(i.name)}</li>`).join('')}</ul>
-        <h3>Steps</h3>
-        <ol>${r.steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
-      </div>
-      <div class="card">
-        <h3 style="margin-top:0">Cart</h3>
-        <ul>${c.items.map(i => `<li>${i.quantity} ${escapeHtml(i.unit)} ${escapeHtml(i.name)}</li>`).join('')}</ul>
-        <a class="cart-link" href="${c.instacart_url}" target="_blank" rel="noopener">Open in Instacart →</a>
-        <div class="stub-note">Local preview: extraction, adaptation, and cart-building are stubbed with fake data — no real LLM or Instacart calls are made.</div>
-      </div>
-    `;
-  }
-
-  function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  }
+})();
 </script>
-</body>
-</html>
+</body></html>

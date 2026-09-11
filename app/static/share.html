@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>PrepLink</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-low": "#eff4ff", "primary-container": "#1f4d36", "surface": "#f8f9ff", "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "primary": "#033621", "primary-fixed": "#bceece", "on-primary-fixed": "#002112", "surface-container-high": "#dce9ff", "secondary-container": "#e6e2de", "on-secondary-container": "#666461", "on-surface": "#0d1c2e", "on-surface-variant": "#414943", "surface-container": "#e6eeff", "inverse-surface": "#233144", "inverse-on-surface": "#eaf1ff", "inverse-primary": "#a0d2b3" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" } } } };</script>
+</head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen">
+<header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[24px]">share</span><span class="font-headline-sm text-headline-sm text-on-surface">Share Recipe Card</span></div><a class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors" href="index.html"><span class="material-symbols-outlined text-[20px]">close</span></a></div></header>
+<main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-margin-mobile pt-space-xs pb-space-sm"><p class="font-body-sm text-body-sm text-on-surface-variant">Help other parents feed their toddlers with confidence.</p></div>
+
+<div class="px-margin-mobile flex justify-center w-full">
+<div class="w-full max-w-[350px] aspect-[4/5] bg-surface-container-lowest rounded-xl shadow-xl overflow-hidden flex flex-col justify-between relative">
+<div class="bg-primary-container text-on-primary px-space-sm py-2 flex items-center justify-between">
+<span class="font-label-sm text-label-sm tracking-wide uppercase text-primary-fixed font-bold">PrepLink</span>
+<span class="font-label-sm text-label-sm text-surface">Local Preview</span>
+</div>
+<div class="px-space-sm pt-space-md pb-space-sm flex flex-col gap-2 flex-1 justify-center">
+<h2 id="share-title" class="font-headline-sm text-headline-sm text-on-surface leading-tight">Loading…</h2>
+<p id="share-meta" class="font-body-sm text-body-sm text-on-surface-variant"></p>
+<div class="bg-primary-fixed/35 rounded-lg px-2.5 py-1.5 flex items-center gap-2 mt-2">
+<span class="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0"><span class="material-symbols-outlined text-[13px] font-bold">check</span></span>
+<div class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm text-primary font-bold tracking-tight uppercase">Example nutrition badge</span><span class="font-body-sm text-body-sm text-on-primary-fixed-variant font-semibold truncate">Nutrition scoring not built yet — illustrative only</span></div>
+</div>
+<div class="flex flex-col min-w-0 pt-2">
+<span id="share-link-display" class="font-body-sm text-body-sm text-on-surface-variant text-[11px] truncate"></span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="px-margin-mobile pt-space-md pb-space-lg flex flex-col gap-space-sm">
+<button class="w-full h-13 py-3 px-space-md bg-primary-container hover:bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs transition-transform active:scale-[0.98] shadow-md" id="btnShare" type="button">
+<span class="material-symbols-outlined text-[20px]">ios_share</span><span>Share link</span>
+</button>
+<button class="w-full h-11 px-space-sm bg-surface-container hover:bg-surface-container-high text-on-surface rounded-xl font-label-md text-label-md flex items-center justify-center gap-1.5 transition-colors active:scale-95" id="btnCopyLink" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary" id="copyIcon">link</span><span id="copyText">Copy link</span>
+</button>
+</div>
+
+<div class="fixed bottom-6 inset-x-margin-mobile mx-auto max-w-sm bg-inverse-surface text-inverse-on-surface px-space-md py-2.5 rounded-full font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg transition-all duration-300 opacity-0 pointer-events-none translate-y-3 z-50" id="toastNotification">
+<span class="material-symbols-outlined text-[18px] text-inverse-primary">check_circle</span><span id="toastMessage">Link copied</span>
+</div>
+</div></main>
+<script>
+(function() {
+  const params = new URLSearchParams(location.search);
+  const jobId = params.get('job');
+  const titleEl = document.getElementById('share-title');
+  const metaEl = document.getElementById('share-meta');
+  const linkDisplay = document.getElementById('share-link-display');
+
+  let shareUrl = `${location.origin}/recipe.html`;
+  let shareTitle = 'PrepLink recipe (example)';
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastNotification');
+    document.getElementById('toastMessage').textContent = msg;
+    toast.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+    }, 2400);
+  }
+
+  async function load() {
+    if (!jobId) {
+      titleEl.textContent = 'Golden Coconut Curry Chicken & Sweet Potato';
+      metaEl.textContent = 'Example data — process a recipe from Extract for a real share link.';
+      linkDisplay.textContent = shareUrl;
+      return;
+    }
+    shareUrl = `${location.origin}/recipe.html?job=${jobId}`;
+    try {
+      const r = await fetch(`/api/recipe/process/${jobId}`);
+      const data = await r.json();
+      if (data.status === 'complete') {
+        shareTitle = data.recipe.metadata.title;
+        titleEl.textContent = shareTitle;
+        metaEl.textContent = `${data.recipe.metadata.servings} servings · ${data.recipe.age_group}`;
+      } else {
+        titleEl.textContent = 'Recipe still processing…';
+      }
+    } catch (e) {
+      titleEl.textContent = 'Could not load recipe';
+    }
+    linkDisplay.textContent = shareUrl;
+  }
+
+  document.getElementById('btnCopyLink').addEventListener('click', () => {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      document.getElementById('copyText').textContent = 'Copied!';
+      document.getElementById('copyIcon').textContent = 'done';
+      showToast('Link copied to clipboard');
+      setTimeout(() => {
+        document.getElementById('copyText').textContent = 'Copy link';
+        document.getElementById('copyIcon').textContent = 'link';
+      }, 2000);
+    }).catch(() => showToast('Could not copy — copy manually: ' + shareUrl));
+  });
+
+  document.getElementById('btnShare').addEventListener('click', async () => {
+    if (navigator.share) {
+      try { await navigator.share({ title: shareTitle, url: shareUrl }); }
+      catch (e) { /* user cancelled */ }
+    } else {
+      document.getElementById('btnCopyLink').click();
+    }
+  });
+
+  load();
+})();
+</script>
+</body></html>
