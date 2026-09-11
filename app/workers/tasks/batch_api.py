@@ -77,7 +77,8 @@ def submit_extraction_batch(
         platform = r["platform"]
         import hashlib
         filters = ",".join(sorted(item.get("dietary_filters", [])))
-        key = hashlib.md5(f"{url}|{item.get('age_group', 'adult')}|{filters}".encode()).hexdigest()[:16]
+        key_src = f"{url}|{item.get('age_group', 'adult')}|{filters}"
+        key = hashlib.md5(key_src.encode(), usedforsecurity=False).hexdigest()[:16]
         custom_id_map[key] = item
 
         lines.append(ob.build_extraction_jsonl_line(
@@ -225,7 +226,9 @@ def submit_adaptation_batch(
         age_band  = resolve_age_band(__import__('app.schemas.recipe', fromlist=['AgeGroup']).AgeGroup(age_group)).value
 
         import hashlib
-        key = hashlib.md5(f"{item['url']}|{age_group}|{','.join(sorted(filters))}".encode()).hexdigest()[:16]
+        filters_str = ",".join(sorted(filters))
+        key_src = f"{item['url']}|{age_group}|{filters_str}"
+        key = hashlib.md5(key_src.encode(), usedforsecurity=False).hexdigest()[:16]
         custom_id_map[key] = {"item": item, "recipe_json": r["llm_json"]}
 
         ing_lines = []
