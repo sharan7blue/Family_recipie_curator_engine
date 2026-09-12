@@ -85,11 +85,26 @@ def test_fish_sauce_reduced_to_50_percent():
     assert any("50%" in w for w in result.warnings)
 
 
-def test_added_salt_reduced_to_70_percent():
+def test_added_salt_reduced_to_30_percent():
     recipe = _recipe(Ingredient(name="Salt", quantity=1, unit="tsp"))
     result = _adapt(recipe, AgeGroup.TODDLER)
-    assert result.ingredients[0].quantity == 0.7
-    assert any("70%" in w for w in result.warnings)
+    assert result.ingredients[0].quantity == 0.3
+    assert any("30%" in w for w in result.warnings)
+
+
+def test_honeydew_melon_is_not_treated_as_honey():
+    recipe = _recipe(Ingredient(name="Honeydew Melon", quantity=1, unit="whole"))
+    result = _adapt(recipe, AgeGroup.INFANT)
+    assert [i.name for i in result.ingredients] == ["Honeydew Melon"]
+    assert result.warnings == []
+
+
+def test_unsalted_butter_is_not_treated_as_added_salt():
+    recipe = _recipe(Ingredient(name="Unsalted Butter", quantity=1, unit="cup"))
+    result = _adapt(recipe, AgeGroup.TODDLER)
+    assert result.ingredients[0].name == "Unsalted Butter"
+    assert result.ingredients[0].quantity == 1
+    assert result.warnings == []
 
 
 def test_alcohol_omitted():

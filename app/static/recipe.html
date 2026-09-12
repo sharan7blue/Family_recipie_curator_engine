@@ -151,6 +151,7 @@ PrepLink provides informational nutrition reference and automated guideline scre
       { name: 'Baby Spinach', quantity: 5, unit: 'oz' },
     ],
   };
+  const DEMO_SAFETY_WARNING = 'Swapped honey for maple syrup — original contains: Botulism risk <2yr.';
   const DEMO_CART_URL = 'https://instacart.com/stub-cart';
 
   // Deterministic fake unit price so the same ingredient always shows the same
@@ -208,7 +209,7 @@ PrepLink provides informational nutrition reference and automated guideline scre
       titleEl.textContent = DEMO.metadata.title;
       metaEl.textContent = `${DEMO.metadata.servings} servings · Example data`;
       renderChecklist(DEMO.ingredients);
-      renderSafetyNotes(['Swapped honey for maple syrup — original contains: Botulism risk <2yr.'], 'Example');
+      renderSafetyNotes([DEMO_SAFETY_WARNING], 'Example');
       shareLink.href = 'share.html';
       return;
     }
@@ -235,7 +236,7 @@ PrepLink provides informational nutrition reference and automated guideline scre
       titleEl.textContent = DEMO.metadata.title;
       metaEl.textContent = `Could not load job (${err.message}) — showing example data.`;
       renderChecklist(DEMO.ingredients);
-      renderSafetyNotes(['Swapped honey for maple syrup — original contains: Botulism risk <2yr.'], 'Example');
+      renderSafetyNotes([DEMO_SAFETY_WARNING], 'Example');
       shareLink.href = 'share.html';
     }
   }

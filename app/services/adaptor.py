@@ -10,6 +10,7 @@ pass but with no model call at all.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from enum import Enum
 
@@ -53,8 +54,14 @@ class SafetyResult:
         self.ui_warning_text = ui_warning_text
 
 
+def _matches_trigger(ingredient_name: str, trigger: str) -> bool:
+    """Word-boundary match so a trigger like "honey" or "salt" doesn't also
+    fire on "honeydew melon" or "unsalted butter"."""
+    return re.search(rf"\b{re.escape(trigger.lower())}\b", ingredient_name.lower()) is not None
+
+
 def check_ingredient_safety_for_band(ingredient_name: str, age_band: str):
-    if "honey" in ingredient_name.lower() and age_band == AgeBand.UNDER_1.value:
+    if _matches_trigger(ingredient_name, "honey") and age_band == AgeBand.UNDER_1.value:
         return SafetyResult(highest_severity="forbidden", ui_warning_text="Honey is unsafe under 12 months.")
     return None
 
@@ -84,14 +91,13 @@ TODDLER_SAFETY_RULES: list[SafetyRule] = [
     SafetyRule("raw carrots", RuleAction.SUBSTITUTE, "Choking hazard", substitute="steamed carrots"),
     SafetyRule("hot sauce", RuleAction.OMIT, "Capsaicin, no nutritional need"),
     SafetyRule("fish sauce", RuleAction.REDUCE, "Sodium content", keep_fraction=0.5),
-    SafetyRule("salt", RuleAction.REDUCE, "Renal load", keep_fraction=0.7),
+    SafetyRule("salt", RuleAction.REDUCE, "Renal load", keep_fraction=0.3),
     SafetyRule("alcohol", RuleAction.OMIT, "Safety"),
 ]
 
 
 def _matching_rule(ingredient_name: str) -> SafetyRule | None:
-    name = ingredient_name.lower()
-    return next((rule for rule in TODDLER_SAFETY_RULES if rule.trigger in name), None)
+    return next((rule for rule in TODDLER_SAFETY_RULES if _matches_trigger(ingredient_name, rule.trigger)), None)
 
 
 def apply_age_safety_rules(ingredients: list[Ingredient], age_band: AgeBand) -> tuple[list[Ingredient], list[str]]:
