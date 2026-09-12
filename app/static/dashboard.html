@@ -1,102 +1,789 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>PrepLink</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script src="design-tokens.js"></script></head>
-<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
-<aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between pt-space-md pb-space-lg">
-<div class="flex flex-col">
-<div class="h-16 px-space-lg flex items-center justify-between">
-<span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">PrepLink</span>
-<span class="px-space-xs py-space-2xs bg-primary-fixed text-primary font-label-sm text-label-sm rounded-full">PEDIATRIC</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script src="design-tokens.js"></script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between pt-space-md pb-space-lg"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="PrepLink Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSYTM8bAe68jpTsb-Cv2qX1hbpFEzm8MRnDQuYruzkTRhDL7g9FqeFDqK3G9wq6CWgtlVYc71-CNg6819py7wCl8Yh26u3_bp8qA8H5V7qhbs3Umww3xOpIvh7hqK5_7rrDWMCiROaBqnx7OPVWoazLG2UK44sPNUVBXh8BXCYb_RlQZUuPiGRBoluQhISRbfPpX8VyWafPtUz1sVEHi6U2DhFITSoIh9HVefuZfh0KNko2w46S4Do1w"><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">PrepLink</span></div><span class="px-space-xs py-space-2xs bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm rounded-full">PEDIATRIC</span></div><nav class="flex flex-col gap-space-2xs px-space-md mt-space-md" data-active-classes="bg-primary-container text-on-primary font-headline-sm font-semibold rounded-xl shadow-[0_2px_8px_-2px_rgba(31,77,54,0.08)]"><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm transition-all group bg-primary-container text-on-primary font-headline-sm font-semibold rounded-xl shadow-[0_2px_8px_-2px_rgba(31,77,54,0.08)]" data-path="weekly-family-planner" href="dashboard.html"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">calendar_month</span><span class="font-label-lg text-label-lg">Weekly Family Planner</span></div><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-variant opacity-80"></span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all group" data-path="quick-extract" href="index.html"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">smart_display</span><span class="font-label-lg text-label-lg">Quick Extract</span></div><span class="px-space-2xs py-space-2xs bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm rounded">AI</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all group" data-path="nutrition-matrix" href="tracker.html"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">query_stats</span><span class="font-label-lg text-label-lg">Nutrition Matrix</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all group" data-path="smart-cart" href="recipe.html"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">shopping_bag</span><span class="font-label-lg text-label-lg">Smart Cart</span></div><span class="px-space-xs py-space-2xs bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm rounded-full">18 items</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all group" data-path="family-rules" href="family.html"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">verified_user</span><span class="font-label-lg text-label-lg">Family Rules</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all group opacity-50 pointer-events-none" data-path="pediatrician-reports" href="#" title="Not built yet"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">clinical_notes</span><span class="font-label-lg text-label-lg">Pediatrician Reports</span></div></a></nav></div><div class="px-space-md flex flex-col gap-space-md"><div class="p-space-md bg-surface-container-low rounded-xl shadow-[0_2px_8px_-2px_rgba(31,77,54,0.04)] flex flex-col gap-space-xs"><div class="flex items-center gap-space-xs text-primary"><span class="material-symbols-outlined text-[18px]">verified</span><span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Clinical Guardianship Active</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Locked to AAP &amp; USDA 2025-2030 Dietary Guidelines with deterministic choking hazard mitigation.</p></div><a href="index.html" class="w-full h-touch-min px-space-md py-space-sm bg-primary-container text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-between hover:bg-primary transition-colors shadow-[0_2px_8px_-2px_rgba(31,77,54,0.12)]"><span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[20px]">bolt</span><span class="">Instacart Instant Order</span></span><span class="material-symbols-outlined text-[18px]">arrow_forward</span></a></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-md flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-space-md py-space-xs bg-surface-container-low font-body-sm text-body-sm text-on-surface rounded-xl focus:outline-none focus:bg-surface-container-lowest placeholder:text-on-surface-variant shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)]" placeholder="Paste YouTube Shorts URL or search recipe..." type="text"></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-xl"><span class="material-symbols-outlined text-primary text-[18px]">group</span><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface">Sterling Family</span><span class="font-body-sm text-[11px] text-on-surface-variant">Lena (14mo) + Liam (5y) + 2 Adults</span></div><span class="material-symbols-outlined text-outline text-[18px]">expand_more</span></div><div class="hidden xl:flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-2xs rounded-xl shadow-[0_1px_4px_rgba(0,0,0,0.04)]"><span class="w-2 h-2 rounded-full bg-surface-tint"></span><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-primary">Target Supercenter</span><span class="font-body-sm text-[11px] text-on-surface-variant">98101 · Instacart Synced</span></div></div><div class="flex items-center gap-space-xs pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0wAmIsT_IUV7-h8_d91ohAPcBjgIFQpW4Sj2aoANEyDbDEm-juN9aFLoXEGtA2WU008_Xj74iVijd_FI_Y72vvviFewfFaEUh2MU3VL1WZvURfC-QFlOqEhsRC6biIx4BEht2KXTMszegIOwoqPrizCHPpYKVYAAtleULxTzFiwR5FjflBxtm_W2hRjZRqUUQzxPs-dOE-J13TXTfZygYHKKGqCsr8grUjtTcbAEvsxaaEwgqXtWerA"><div class="hidden md:flex flex-col"><span class="font-label-sm text-label-sm text-on-surface leading-tight">Sarah S.</span><span class="font-body-sm text-[11px] text-on-surface-variant leading-tight">Caregiver</span></div></div></div></header><main class="w-full pt-16 bg-surface px-space-xl pb-space-3xl"><div class="flex flex-col w-full gap-space-xl">
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0">info</span>
+<span>This is a Phase 2 roadmap preview (weekly meal planner, multi-retailer cart, nutrition scoring) — none of it is wired to the backend yet. See ROADMAP.md.</span>
 </div>
-<nav class="flex flex-col gap-space-2xs px-space-md mt-space-md">
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all" href="index.html"><span class="material-symbols-outlined text-[20px]">smart_display</span><span class="font-label-lg text-label-lg">Quick Extract</span></a>
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all" href="recipe.html"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="font-label-lg text-label-lg">Smart Cart</span></a>
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all" href="tracker.html"><span class="material-symbols-outlined text-[20px]">query_stats</span><span class="font-label-lg text-label-lg">Nutrition Tracker</span></a>
-<a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all" href="family.html"><span class="material-symbols-outlined text-[20px]">verified_user</span><span class="font-label-lg text-label-lg">Family Rules</span></a>
-<a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm bg-primary-container text-on-primary font-headline-sm font-semibold rounded-xl" href="dashboard.html"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span class="font-label-lg text-label-lg">Weekly Planner</span></div></a>
-</nav>
-</div>
-<div class="px-space-md flex flex-col gap-space-md">
-<div class="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs">
-<div class="flex items-center gap-space-xs text-primary"><span class="material-symbols-outlined text-[18px]">info</span><span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Demo Screen</span></div>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Weekly planning, multi-child profiles, and cross-meal deficit tracking are Phase 2 roadmap items — not built. Everything below is illustrative.</p>
-</div>
-</div>
-</aside>
-<div class="pl-72">
-<header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl">
-<div class="flex items-center gap-space-md flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-space-md py-space-xs bg-surface-container-low font-body-sm text-body-sm text-on-surface rounded-xl focus:outline-none focus:bg-surface-container-lowest placeholder:text-on-surface-variant" placeholder="Paste a recipe URL to plan a day (demo only)…" type="text"/></div></div>
-<div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-xl"><span class="material-symbols-outlined text-primary text-[18px]">group</span><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface">Sterling Family (demo)</span><span class="font-body-sm text-[11px] text-on-surface-variant">Lena (14mo) + Liam (5y) + 2 Adults</span></div></div></div>
-</header>
-<main class="w-full pt-16 bg-surface px-space-xl pb-space-3xl"><div class="flex flex-col w-full gap-space-xl">
-
-<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<!-- CLINICAL STATUS HEADER & NOTIFICATION STRIP -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-[0_2px_12px_-3px_rgba(31,77,54,0.06)] flex flex-col md:flex-row md:items-center justify-between gap-space-md">
 <div class="flex items-start md:items-center gap-space-md">
-<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary-container shrink-0"><span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">calendar_month</span></div>
+<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
 <div>
-<div class="flex flex-wrap items-center gap-space-xs mb-1"><span class="px-space-xs py-space-2xs rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-semibold">DEMO DATA</span><span class="text-secondary font-label-sm text-label-sm">· Week 42</span></div>
-<p class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Seven-Day Household Meal Matrix (mockup)</p>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Illustrates what a Phase 2 weekly planner + multi-member nutrition dashboard would look like once built.</p>
+<div class="flex flex-wrap items-center gap-space-xs mb-1">
+<span class="px-space-xs py-space-2xs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold tracking-wide">AAP DRI BENCHMARK V2.6</span>
+<span class="px-space-xs py-space-2xs rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">USDA 2025-2030 SYNCED</span>
+<span class="text-secondary font-label-sm text-label-sm">· Week 42</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Active Pediatric Guardianship: Multi-Age Developmental Guard</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Deterministically enforcing botulism safeguards for Lena (14mo) and texture/choking safety for Liam (5yr).</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 self-end md:self-center">
+<div class="flex items-center gap-space-2xs bg-surface-container-low px-space-sm py-space-xs rounded-lg text-on-surface font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-surface-tint animate-pulse"></span>
+<span class="">Target &amp; Whole Foods Real-Time API</span>
 </div>
 </div>
 </div>
-
-<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md">
-<div class="md:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
-<div class="flex items-center justify-between mb-space-sm"><div class="flex items-center gap-space-xs"><div class="w-9 h-9 rounded-full bg-tertiary-fixed flex items-center justify-center font-bold text-tertiary font-headline-sm">L</div><div><div class="font-headline-sm text-[16px] leading-tight text-on-surface font-bold">Lena Sterling</div><div class="font-label-sm text-label-sm text-on-surface-variant">14 Months · Toddler DRI</div></div></div><div class="text-right"><span class="font-headline-md text-headline-md text-primary font-extrabold">88</span><span class="font-body-sm text-[11px] text-secondary">/100</span></div></div>
-<div class="space-y-2"><div><div class="flex justify-between font-label-sm text-label-sm mb-0.5"><span class="text-on-surface font-medium">Elemental Iron</span><span class="font-bold text-tertiary">78%</span></div><div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden"><div class="bg-tertiary-fixed-dim h-full rounded-full" style="width: 78%"></div></div></div>
-<div><div class="flex justify-between font-label-sm text-label-sm mb-0.5"><span class="text-on-surface font-medium">Calcium</span><span class="font-bold text-surface-tint">94%</span></div><div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden"><div class="bg-surface-tint h-full rounded-full" style="width: 94%"></div></div></div></div>
+<!-- TIMELINE CONTROLS & FAST ACTIONS BAR -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<!-- Date Navigation -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center bg-surface-container-lowest p-space-2xs rounded-xl shadow-[0_2px_8px_-2px_rgba(31,77,54,0.05)]">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" title="Previous Week">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<div class="px-space-md text-center">
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">Oct 13 – Oct 19, 2026</div>
+<div class="font-label-sm text-label-sm text-primary font-semibold tracking-wide uppercase">Fall Toddler Vitality Focus</div>
 </div>
-<div class="md:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
-<div class="flex items-center justify-between mb-space-sm"><div class="flex items-center gap-space-xs"><div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-primary font-headline-sm">L5</div><div><div class="font-headline-sm text-[16px] leading-tight text-on-surface font-bold">Liam Sterling</div><div class="font-label-sm text-label-sm text-on-surface-variant">5 Years · Child DRI</div></div></div><div class="text-right"><span class="font-headline-md text-headline-md text-surface-tint font-extrabold">92</span><span class="font-body-sm text-[11px] text-secondary">/100</span></div></div>
-<div class="space-y-2"><div><div class="flex justify-between font-label-sm text-label-sm mb-0.5"><span class="text-on-surface font-medium">Elemental Iron</span><span class="font-bold text-surface-tint">100%</span></div><div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden"><div class="bg-surface-tint h-full rounded-full" style="width: 100%"></div></div></div>
-<div><div class="flex justify-between font-label-sm text-label-sm mb-0.5"><span class="text-on-surface font-medium">Calcium</span><span class="font-bold text-surface-tint">91%</span></div><div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden"><div class="bg-surface-tint h-full rounded-full" style="width: 91%"></div></div></div></div>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" title="Next Week">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
 </div>
-<div class="md:col-span-4 bg-primary-container text-on-primary rounded-xl p-space-sm shadow-sm flex items-start gap-space-sm">
-<div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0 text-primary-fixed"><span class="material-symbols-outlined text-[20px]">science</span></div>
-<div><div class="font-label-md text-label-md font-bold tracking-wide text-primary-fixed uppercase">Biochemical Pairing (example)</div><p class="font-body-sm text-[12px] text-on-primary leading-relaxed mt-0.5">High-Vitamin-C peppers paired with iron-rich lentils can raise non-heme iron absorption ~40% — an example of the kind of pairing insight this feature would surface.</p></div>
+<button class="h-10 px-space-md bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-label-md text-label-md rounded-xl shadow-[0_2px_8px_-2px_rgba(31,77,54,0.04)] transition-all flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">today</span>
+<span class="">Current Week</span>
+</button>
 </div>
-</div>
-
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
-<div class="lg:col-span-8 flex flex-col gap-space-lg">
-<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Example Week</h2>
-<div class="flex flex-col gap-space-md">
-<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
-<div class="flex items-center gap-space-xs pb-space-xs mb-space-sm"><span class="font-headline-sm text-headline-sm text-primary font-extrabold">Monday</span><span class="font-label-sm text-label-sm text-on-surface-variant">· Oct 13</span></div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
-<div class="p-space-sm rounded-lg bg-surface-container-low"><div class="font-label-sm text-[11px] text-secondary uppercase font-bold tracking-wider mb-1">Breakfast</div><div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug">Chia Seed Oat Pudding w/ Strawberries</div></div>
-<div class="p-space-sm rounded-lg bg-surface-container-low"><div class="font-label-sm text-[11px] text-secondary uppercase font-bold tracking-wider mb-1">Lunch</div><div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug">Avocado Turkey Pinwheels &amp; Carrots</div></div>
-<div class="p-space-sm rounded-lg bg-surface-container-lowest ring-1 ring-primary/20"><div class="font-label-sm text-[10px] text-tertiary font-bold uppercase tracking-wider">Dinner · from Extract</div><div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug">Golden Coconut Curry Chicken &amp; Sweet Potato</div><span class="inline-block mt-1 px-space-2xs py-0.5 rounded bg-primary-fixed text-primary font-label-sm text-[10px] font-bold">+3.8mg Iron (example)</span></div>
-</div>
-</div>
-<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
-<div class="flex items-center gap-space-xs pb-space-xs mb-space-sm"><span class="font-headline-sm text-headline-sm text-on-surface font-extrabold">Tuesday</span><span class="font-label-sm text-label-sm text-on-surface-variant">· Oct 14</span></div>
-<div class="p-space-sm rounded-lg bg-surface-container-low"><div class="font-headline-sm text-[14px] text-on-surface font-bold">15-Min Lentil Sweet Potato Tots with Herb Yogurt Dip</div><div class="font-body-sm text-[12px] text-on-surface-variant mt-1">High iron red lentils, baked into finger-ready nuggets.</div></div>
-</div>
-<div class="rounded-xl p-space-md bg-surface-container-low/70 flex flex-col items-center justify-center text-center gap-space-xs py-8">
-<span class="material-symbols-outlined text-[22px] text-primary">add</span>
-<div class="font-headline-sm text-[15px] text-on-surface font-bold">Rest of week — open slots</div>
-<div class="font-body-sm text-[12px] text-on-surface-variant">This is where drag-and-drop weekly planning would go (Phase 2).</div>
-</div>
-</div>
-</div>
-
-<div class="lg:col-span-4 flex flex-col gap-space-md sticky top-20">
-<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
-<div class="font-headline-sm text-[16px] text-on-surface font-bold mb-space-sm">Consolidated Shopping List (example)</div>
-<div class="space-y-1.5 text-[13px] font-body-sm">
-<div class="flex justify-between"><span class="text-on-surface">Organic Sweet Potatoes (3 lbs)</span><span class="font-semibold text-secondary">$3.99</span></div>
-<div class="flex justify-between"><span class="text-on-surface">Red Bell Peppers (pack of 3)</span><span class="font-semibold text-secondary">$3.49</span></div>
-<div class="flex justify-between"><span class="text-on-surface">Boneless Chicken Thighs (2 lbs)</span><span class="font-semibold text-secondary">$8.99</span></div>
-</div>
-<div class="flex justify-between font-headline-sm text-[16px] text-on-surface font-extrabold pt-space-sm mt-space-sm" style="border-top:1px solid var(--tw-color-surface-container-high,#dce9ff)"><span>Total (example)</span><span class="text-primary">$16.47</span></div>
-<a href="recipe.html" class="w-full h-11 mt-space-sm bg-primary text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs hover:bg-primary-container transition-all">
-<span class="material-symbols-outlined text-[18px]">shopping_bag</span><span>Try a real cart instead →</span>
+<!-- Quick Tool Triggers -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<a href="index.html" class="h-11 px-space-md bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-label-md text-label-md rounded-xl shadow-[0_2px_8px_-2px_rgba(31,77,54,0.05)] transition-all flex items-center gap-space-xs group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform text-[20px]">bolt</span>
+<span class="font-bold">Paste Short URL to Plan</span>
+<span class="px-space-2xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold uppercase">AI Clip</span>
 </a>
+<button class="h-11 px-space-md bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-label-md text-label-md rounded-xl shadow-[0_2px_8px_-2px_rgba(31,77,54,0.05)] transition-all flex items-center gap-space-xs" onclick="document.getElementById('auto-balance-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-surface-tint text-[20px]">balance</span>
+<span class="">Auto-Balance Deficits</span>
+</button>
+<button class="h-11 px-space-lg bg-primary text-on-primary font-label-lg text-label-lg rounded-xl shadow-[0_4px_14px_-2px_rgba(3,54,33,0.3)] hover:bg-primary-container transition-all flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px]">shopping_cart_checkout</span>
+<span class="">Send All to Instacart</span>
+<span class="px-space-xs py-0.5 rounded-full bg-white/20 text-white font-label-sm text-label-sm font-bold">$74.20</span>
+</button>
+</div>
+</div>
+<!-- MULTI-MEMBER CLINICAL NUTRITION MATRIX -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md">
+<!-- Card 1: Lena (Toddler) -->
+<div class="md:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_10px_-2px_rgba(31,77,54,0.04)] flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-tertiary-fixed/30 rounded-bl-full pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-9 h-9 rounded-full bg-tertiary-fixed flex items-center justify-center font-bold text-on-tertiary-fixed font-headline-sm">L</div>
+<div>
+<div class="font-headline-sm text-[16px] leading-tight text-on-surface font-bold">Lena Sterling</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">14 Months · Toddler DRI</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-primary font-extrabold">88</span>
+<span class="font-body-sm text-[11px] text-secondary">/100 Vitality</span>
+</div>
+</div>
+<!-- Deficit Alert Banner -->
+<div class="bg-tertiary-fixed/40 p-space-xs rounded-lg mb-space-sm flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px] shrink-0 mt-0.5" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div class="font-body-sm text-[12px] text-on-tertiary-fixed leading-tight">
+<strong class="font-semibold">Pediatric Iron Deficit Alert:</strong> 38.2 / 49.0 mg logged. Deficit of <span class="font-bold text-error">10.8 mg</span> required by Sunday.
+          </div>
+</div>
+<!-- Progress Bars Matrix -->
+<div class="space-y-2 mb-space-sm">
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-0.5">
+<span class="text-on-surface font-medium flex items-center gap-1">
+                Elemental Iron (AAP 7mg/d)
+                <span class="material-symbols-outlined text-[14px] text-tertiary">priority_high</span>
+</span>
+<span class="font-bold text-tertiary">78%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary-fixed-dim h-full rounded-full transition-all duration-500" style="width: 78%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-0.5">
+<span class="text-on-surface font-medium">Bioavailable Calcium (700mg)</span>
+<span class="font-bold text-surface-tint">94%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-surface-tint h-full rounded-full" style="width: 94%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-0.5">
+<span class="text-on-surface font-medium">Dietary Vitamin D (600 IU)</span>
+<span class="font-bold text-surface-tint">86%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-surface-tint h-full rounded-full" style="width: 86%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-0.5">
+<span class="text-on-surface font-medium">Gentle Prebiotic Fiber (19g)</span>
+<span class="font-bold text-secondary">78%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-secondary-fixed-dim h-full rounded-full" style="width: 78%"></div>
 </div>
 </div>
 </div>
-
+</div>
+<div class="pt-space-xs border-t-0 flex flex-wrap gap-1">
+<span class="px-space-2xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px] font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">lock</span> Botulism Safeguard (No Raw Honey)
+        </span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-low text-on-surface-variant font-label-sm text-[10px] font-medium">
+          Pure Maple Swap Applied
+        </span>
+</div>
+</div>
+<!-- Card 2: Liam (5yr Child) -->
+<div class="md:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_10px_-2px_rgba(31,77,54,0.04)] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-on-primary-fixed font-headline-sm">L5</div>
+<div>
+<div class="font-headline-sm text-[16px] leading-tight text-on-surface font-bold">Liam Sterling</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">5 Years · Early Childhood DRI</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-surface-tint font-extrabold">92</span>
+<span class="font-body-sm text-[11px] text-secondary">/100 Vitality</span>
+</div>
+</div>
+<div class="bg-primary-fixed/30 p-space-xs rounded-lg mb-space-sm flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div class="font-body-sm text-[12px] text-on-surface font-medium leading-tight">
+            Iron intake fully met for growth spurts. Choking morphology screen clean.
+          </div>
+</div>
+<div class="space-y-2 mb-space-sm">
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-0.5">
+<span class="text-on-surface font-medium">Elemental Iron (10mg/d)</span>
+<span class="font-bold text-surface-tint">100%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-surface-tint h-full rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-0.5">
+<span class="text-on-surface font-medium">Calcium (1,000mg/d)</span>
+<span class="font-bold text-surface-tint">91%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-surface-tint h-full rounded-full" style="width: 91%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-0.5">
+<span class="text-on-surface font-medium">Vitamin D (600 IU)</span>
+<span class="font-bold text-secondary">80%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-secondary-fixed-dim h-full rounded-full" style="width: 80%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-0.5">
+<span class="text-on-surface font-medium">Roughage &amp; Soluble Fiber (25g)</span>
+<span class="font-bold text-surface-tint">85%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-surface-tint h-full rounded-full" style="width: 85%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-space-xs border-t-0 flex flex-wrap gap-1">
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-low text-on-surface-variant font-label-sm text-[10px] font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">security</span> Quartered Cherry Tomato Rule Active
+        </span>
+</div>
+</div>
+<!-- Card 3: Adults + Clinical Synergy Highlight -->
+<div class="md:col-span-4 flex flex-col gap-space-sm">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_10px_-2px_rgba(31,77,54,0.04)] flex-1 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-on-surface font-headline-sm">A2</div>
+<div>
+<div class="font-headline-sm text-[16px] leading-tight text-on-surface font-bold">Adults (Sarah &amp; Mark)</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Cardio-Metabolic Baseline</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">85</span>
+<span class="font-body-sm text-[11px] text-secondary">/100 Vitality</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-1">
+<div class="p-2 bg-surface-container-low rounded-lg">
+<div class="font-label-sm text-[11px] text-secondary">Sodium Ceiling</div>
+<div class="font-label-lg text-label-lg font-bold text-on-surface">1,840 / 2,300mg</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-1 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 79%"></div>
+</div>
+</div>
+<div class="p-2 bg-surface-container-low rounded-lg">
+<div class="font-label-sm text-[11px] text-secondary">Family Veg Diversity</div>
+<div class="font-label-lg text-label-lg font-bold text-on-surface">19 Plants / 30</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-1 overflow-hidden">
+<div class="bg-surface-tint h-full rounded-full" style="width: 63%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Biochemical Synergy Detection Card -->
+<div class="bg-primary-container text-on-primary rounded-xl p-space-sm shadow-[0_4px_12px_-2px_rgba(3,54,33,0.15)] flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0 text-primary-fixed">
+<span class="material-symbols-outlined text-[20px]">science</span>
+</div>
+<div>
+<div class="font-label-md text-label-md font-bold tracking-wide text-primary-fixed uppercase">Biochemical Pairing Detected</div>
+<p class="font-body-sm text-[12px] text-on-primary leading-relaxed mt-0.5">
+            Wed &amp; Fri meals deliberately pair high-Vitamin C bell peppers &amp; citrus with non-heme lentils &amp; salmon cakes, elevating bioavailable iron absorption by <strong>+40%</strong> for Lena.
+          </p>
+</div>
+</div>
+</div>
+</div>
+<!-- MAIN 2-COLUMN VIEWPORT: 70% PLANNER / 30% MERGED INSTACART DOCK -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- LEFT COLUMN: 7-DAY INTERACTIVE MEAL PLANNER (approx 70%) -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Seven-Day Household Meal Matrix</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Synthesized from saved YouTube Shorts with automated pediatric portioning &amp; allergy filters.</p>
+</div>
+<div class="flex items-center gap-space-2xs bg-surface-container-low p-1 rounded-xl">
+<button class="px-space-sm py-1 rounded-lg bg-surface-container-lowest text-primary font-label-sm text-label-sm font-bold shadow-sm">All Meals</button>
+<button class="px-space-sm py-1 rounded-lg text-secondary hover:text-on-surface font-label-sm text-label-sm">Dinners Only</button>
+<button class="px-space-sm py-1 rounded-lg text-secondary hover:text-on-surface font-label-sm text-label-sm">Lena Snacks</button>
+</div>
+</div>
+<!-- Days Grid -->
+<div class="flex flex-col gap-space-md">
+<!-- MONDAY -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_8px_-2px_rgba(31,77,54,0.04)]">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-primary font-extrabold">Monday</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">· Oct 13</span>
+<span class="px-space-2xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px] font-semibold">100% On Plan</span>
+</div>
+<div class="font-label-sm text-label-sm text-secondary">Est. Prep: 32 mins</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<!-- Monday Breakfast -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="font-label-sm text-[11px] text-secondary uppercase font-bold tracking-wider mb-1">Breakfast</div>
+<div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug">Chia Seed Oat Pudding w/ Sliced Strawberries</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-1">Fortified soy milk, ground flaxseeds, pure vanilla</div>
+</div>
+<div class="mt-space-sm pt-space-2xs flex items-center justify-between">
+<span class="font-label-sm text-[11px] text-surface-tint font-semibold">+1.8mg Iron</span>
+<span class="font-label-sm text-[11px] text-secondary">Prep: 5m</span>
+</div>
+</div>
+<!-- Monday Lunch -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="font-label-sm text-[11px] text-secondary uppercase font-bold tracking-wider mb-1">Toddler + Lunch</div>
+<div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug">Avocado Turkey Pinwheels &amp; Steamed Carrot Coins</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-1">Whole grain wrap, nitrate-free oven turkey</div>
+</div>
+<div class="mt-space-sm pt-space-2xs flex items-center justify-between">
+<span class="font-label-sm text-[11px] text-secondary font-semibold">Fork Tender Rule</span>
+<span class="font-label-sm text-[11px] text-secondary">Family Pack</span>
+</div>
+</div>
+<!-- Monday Dinner (Short Extracted) -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest ring-1 ring-primary/20 shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start gap-space-xs">
+<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Vibrant golden coconut chicken curry stew with diced orange sweet potatoes, garnished with fresh cilantro in a matte ceramic bowl, soft natural kitchen counter lighting, appetizing warm tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzUoN8qXn9RD8q-bdYAxFPkJQuD_RLMHmGLU5jDNwyjEpu4I3TH-ceLYZ_rZuND8Z2xqszjMHN7GoLzBEIU0aySoQ-mXO1VnoavNYjphyLDrC8VvPoWzX7wh1mGFpPIx6spzWB4HeO-aGOiJMhKwjjJVkgLxqsyNrpojfvKVTbwH4GwlqRralQo2NK2IgBdtOMD2IaEb-VwsAT-JLAKPd8XvTH1fWZlFNOUVmhcYcN0_T8pgcSNumkrA">
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[16px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+</div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1">
+<span class="font-label-sm text-[10px] text-tertiary font-bold uppercase tracking-wider">Dinner · 0:58 Short</span>
+<span class="px-1 py-0.2 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[9px] font-bold">@LittleFoodie</span>
+</div>
+<div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug truncate">Golden Coconut Curry Chicken &amp; Sweet Potato</div>
+<div class="font-body-sm text-[11px] text-on-surface-variant mt-0.5">Mild turmeric base · Sweet potato puree blend</div>
+</div>
+</div>
+<div class="mt-space-sm flex flex-wrap gap-1">
+<span class="px-space-2xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px] font-bold">+3.8mg Iron</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] font-medium">AAP Verified (Maple Swap)</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-tint/15 text-surface-tint font-label-sm text-[10px] font-semibold">Instacart Synced</span>
+</div>
+</div>
+</div>
+</div>
+<!-- TUESDAY -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_8px_-2px_rgba(31,77,54,0.04)]">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-extrabold">Tuesday</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">· Oct 14</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] font-semibold">High Fiber Day</span>
+</div>
+<div class="font-label-sm text-label-sm text-secondary">Est. Prep: 25 mins</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<!-- Lunch Slot -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="font-label-sm text-[11px] text-secondary uppercase font-bold tracking-wider mb-1">Toddler Bento</div>
+<div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug">Hard Boiled Egg, Steamed Peas &amp; Sliced Raspberries</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-1">Lena finger-food adapted · Liam snack bag</div>
+</div>
+<div class="mt-space-sm pt-space-2xs flex items-center justify-between">
+<span class="font-label-sm text-[11px] text-surface-tint font-semibold">+120mg Choline</span>
+<span class="font-label-sm text-[11px] text-secondary">No Cooking</span>
+</div>
+</div>
+<!-- Tuesday Dinner (Short Extracted) -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest ring-1 ring-primary/20 shadow-sm flex flex-col justify-between relative overflow-hidden md:col-span-2">
+<div class="flex items-start gap-space-xs">
+<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Crispy golden brown baked red lentil and sweet potato veggie tots on parchment paper, paired with a small bowl of unsweetened Greek yogurt dip, overhead rustic food photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrBro2JDqMdvJ5MnZSAu2KdEmhbfl2Gw3sp7-cMLXRAZ2B8WItFBUHXnQ0V31M5eXo7-Sydz0qKZa4Wne5rtAKS_i4JDeKxY35-Dd4hRlJmgjTUwBwiXIyBen2q9Z3ok9jllSUVal3Qkn2R-BhQIJCmjA87b_29zxZPFZilPcLCjI1k3zVeAAPISYVESSkO31K4HxVGiqCDNWcSEdaRO9XjsXnCr4mf8fazhLOFVuZOdmnRUvYctYLbw">
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[16px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+</div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-tertiary font-bold uppercase tracking-wider">Dinner · 0:45 Short (@YummyToddlerFood)</span>
+<span class="font-label-sm text-[11px] text-primary font-bold">Liam Rating: 5★</span>
+</div>
+<div class="font-headline-sm text-[15px] text-on-surface font-bold leading-snug">15-Min Lentil Sweet Potato Tots with Herb Yogurt Dip</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">High iron red lentils soaked and baked into finger-ready nuggets. No added salt for Lena portion.</div>
+</div>
+</div>
+<div class="mt-space-sm flex flex-wrap items-center justify-between gap-1">
+<div class="flex items-center gap-1">
+<span class="px-space-2xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px] font-bold">+3.4mg Iron</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] font-medium">+5g Prebiotic Fiber</span>
+<span class="px-space-2xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[10px] font-bold">Kid-Tested</span>
+</div>
+<button class="font-label-sm text-[11px] text-primary hover:underline flex items-center gap-0.5">
+<span class="">View Step-by-Step</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- WEDNESDAY -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_8px_-2px_rgba(31,77,54,0.04)]">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-extrabold">Wednesday</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">· Oct 15</span>
+<span class="px-space-2xs py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-[10px] font-bold">Biochemical Pairing Day</span>
+</div>
+<div class="font-label-sm text-label-sm text-secondary">Est. Prep: 35 mins</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-lowest ring-1 ring-primary/20 shadow-sm flex flex-col justify-between relative overflow-hidden md:col-span-2">
+<div class="flex items-start gap-space-xs">
+<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Pan-seared wild salmon cakes seasoned with fresh dill and lemon zest, alongside vibrant green steamed broccoli florets and orange sweet potato wedges on a clean white dinner plate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZVGZpfb5GOAZ_FcojUeHw1KgyZwUuHdpFeqPvZDwg1mjy5WRJ2AS_H0a0EnfYeMPWBiSKuOEnETcQNu65DH6XChueLpvtC1rB4nWPRAibn8XpLF74CX9BW0rnzowtgu71sQA2NFzZVwMMaa93o6y52at_-PMeuNvzOzoQuOjufXcPFw9SXihX2m42j_2w7lrnVBnGNy3NC3I9T7MsG-VN9VaCD6FJlhYLQdujApRCfp2jd7XNNyWxdw">
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[16px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+</div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-tertiary font-bold uppercase tracking-wider">Dinner · 0:52 Short</span>
+<span class="font-label-sm text-[11px] text-surface-tint font-bold">Brain-Building DHA</span>
+</div>
+<div class="font-headline-sm text-[15px] text-on-surface font-bold leading-snug">Wild Salmon Cakes &amp; Steamed Broccoli with Lemon-Dill Dressing</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Rich in Omega-3 EPA/DHA. Broccoli paired with lemon juice to accelerate iron utilization.</div>
+</div>
+</div>
+<div class="mt-space-sm flex flex-wrap gap-1">
+<span class="px-space-2xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px] font-bold">+420 IU Vitamin D</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] font-medium">DHA + EPA Boost</span>
+<span class="px-space-2xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[10px] font-bold">AAP Fatty Fish Rec</span>
+</div>
+</div>
+<!-- Toddler Snack Slot -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="font-label-sm text-[11px] text-secondary uppercase font-bold tracking-wider mb-1">Lena PM Snack</div>
+<div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug">Iron-Fortified Oat Waffle Strips &amp; Warm Berry Compote</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-1">Finger grasp training (palmar to pincer)</div>
+</div>
+<div class="mt-space-sm pt-space-2xs flex items-center justify-between">
+<span class="font-label-sm text-[11px] text-surface-tint font-semibold">+2.1mg Iron</span>
+<span class="font-label-sm text-[11px] text-secondary">Freezer Stash</span>
+</div>
+</div>
+</div>
+</div>
+<!-- THURSDAY -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_8px_-2px_rgba(31,77,54,0.04)]">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-extrabold">Thursday</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">· Oct 16</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-low text-on-surface font-label-sm text-[10px] font-medium">Batch Cooked</span>
+</div>
+<div class="font-label-sm text-label-sm text-secondary">Est. Prep: 20 mins</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-lowest ring-1 ring-primary/20 shadow-sm flex flex-col justify-between relative overflow-hidden md:col-span-2">
+<div class="flex items-start gap-space-xs">
+<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Fluffy baked egg muffin bites studded with minced green broccoli and white cauliflower florets, topped with melted mild cheddar cheese on a cooling wire rack." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn3K0zsDKbQxq4BZMUuGRzR2Zd9DdBd3KoCT6hOFAxgnY_UvHHnjGgk5JN0RaXlSMrA9jUsMF9vnsYA8J13kn0NiD7uqLAIleKjmwdRtq2z581vOaPXRmfshAjvx5wZAaFWVstRWvYxOAX1DF2zuvAAvSBKRpMkiGq7acdCenZfvAYK2UsJZxSnUk-zl1laPCi2ZdT4bHST0YBeMMSUZl0KAU1-_dpMD1w-yC_PfdsN58sRXEdIKaaJw">
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[16px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+</div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-tertiary font-bold uppercase tracking-wider">Dinner / Quick Prep · 0:39 Short</span>
+<span class="font-label-sm text-[11px] text-primary font-bold">30g Protein / Batch</span>
+</div>
+<div class="font-headline-sm text-[15px] text-on-surface font-bold leading-snug">Cheesy Broccoli Cauliflower Pasture-Raised Egg Bites</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">High in dietary lutein and whole bioavailable protein. Soft texture suitable for infant gumming.</div>
+</div>
+</div>
+<div class="mt-space-sm flex flex-wrap gap-1">
+<span class="px-space-2xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px] font-bold">+180mg Calcium</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] font-medium">Choline Rich</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-tint/15 text-surface-tint font-label-sm text-[10px] font-semibold">Self-Feeding Safe</span>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="font-label-sm text-[11px] text-secondary uppercase font-bold tracking-wider mb-1">Family Lunch</div>
+<div class="font-headline-sm text-[14px] text-on-surface font-bold leading-snug">Leftover Salmon Bowls w/ Jasmine Rice</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-1">Cucumbers sliced in half-moons for Liam</div>
+</div>
+<div class="mt-space-sm pt-space-2xs flex items-center justify-between">
+<span class="font-label-sm text-[11px] text-secondary font-semibold">Zero Waste</span>
+<span class="font-label-sm text-[11px] text-secondary">Quick Heat</span>
+</div>
+</div>
+</div>
+</div>
+<!-- FRIDAY -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_8px_-2px_rgba(31,77,54,0.04)]">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-extrabold">Friday</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">· Oct 17</span>
+<span class="px-space-2xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[10px] font-bold">Iron Max Optimizer</span>
+</div>
+<div class="font-label-sm text-label-sm text-secondary">Est. Prep: 30 mins</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest ring-1 ring-primary/20 shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start gap-space-xs">
+<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Thick creamy green and golden red lentil spinach dahl served with softly steamed colorful bell pepper strips and toasted flatbread triangles, warm natural kitchen setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTUGX201LBvPIyuGmVaQN5ZDXKx1M_6nXkraIFchm2iwiWjfk2b7EthIH4K2JKuy3214pMJgrWFzKS_Hk8LFN4Xbd0Eg0t4fVr8nXhldpLwp6Y31e073yfmiFTBprMLve4Bs7ZFAtkcHPR99P1DoZCpcuXnqW-35o0bAd53jZXw2ExqRFRaNb7ngtdXIEy2KbvooOV8W8S1kg4bNawc6vY2Z1VzFPWMN3_LrCpc6QhVG-MZkQt0DiJHQ">
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[16px]" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+</div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-tertiary font-bold uppercase tracking-wider">Dinner · 0:54 Short (@CookingForToddlers)</span>
+<span class="font-label-sm text-[11px] text-primary font-bold">Biochem Iron Pairing ⚡</span>
+</div>
+<div class="font-headline-sm text-[15px] text-on-surface font-bold leading-snug">Creamy Spinach Lentil Dahl with Bell Pepper Ribbons</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Cooked with red bell pepper ribbons for massive non-heme iron absorption. No added salt for kids, adult finishing sea salt served on side.</div>
+</div>
+</div>
+<div class="mt-space-sm flex flex-wrap items-center justify-between gap-1">
+<div class="flex items-center gap-1">
+<span class="px-space-2xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px] font-bold">+4.1mg Iron</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] font-medium">Adult Sodium Decoupled</span>
+<span class="px-space-2xs py-0.5 rounded bg-surface-tint/15 text-surface-tint font-label-sm text-[10px] font-semibold">100% Plant Diverse</span>
+</div>
+<span class="font-label-sm text-[11px] text-secondary font-medium">Batch Yield: 6 Servings</span>
+</div>
+</div>
+</div>
+<!-- WEEKEND INTERACTIVE DROPZONES -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Saturday Dropzone -->
+<div class="rounded-xl p-space-md bg-surface-container-low/70 flex flex-col items-center justify-center text-center gap-space-xs py-8 group hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[22px]">add</span>
+</div>
+<div>
+<div class="font-headline-sm text-[15px] text-on-surface font-bold">Saturday Family Dinner Slot</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant">Drop a YouTube Short URL or browse recommended weekend recipes</div>
+</div>
+<button class="font-label-sm text-label-sm text-primary font-bold px-space-sm py-1 bg-surface-container-lowest rounded-lg shadow-xs mt-1">
+              + Add Short or Family Favorite
+            </button>
+</div>
+<!-- Sunday Dropzone -->
+<div class="rounded-xl p-space-md bg-surface-container-low/70 flex flex-col items-center justify-center text-center gap-space-xs py-8 group hover:bg-surface-container-low transition-all cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[22px]">add</span>
+</div>
+<div>
+<div class="font-headline-sm text-[15px] text-on-surface font-bold">Sunday Meal Prep &amp; Slow Roast</div>
+<div class="font-body-sm text-[12px] text-on-surface-variant">Open slot — ideal for closing Lena's remaining iron target</div>
+</div>
+<button class="font-label-sm text-label-sm text-primary font-bold px-space-sm py-1 bg-surface-container-lowest rounded-lg shadow-xs mt-1">
+              + Auto-Fill Deficit Match
+            </button>
+</div>
+</div>
+</div>
+<!-- DEFICIT RESOLVER DRAWER (Targeted recommendations to bridge Lena's 10.8mg gap) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_12px_-3px_rgba(31,77,54,0.06)]">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[18px]">auto_fix_high</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-[16px] text-on-surface font-bold">Pediatric Iron Gap Resolver</h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Recommended short-form meals to fulfill Lena's remaining <strong>10.8mg</strong> requirement before Sunday 8 PM.</p>
+</div>
+</div>
+<span class="px-space-xs py-1 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-[11px] font-bold">2 Matches Found</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- Suggestion 1 -->
+<div class="p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Tender baked beef and beetroot mini meatballs arranged on a small toddler plate next to mashed sweet potatoes, soft ambient lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr0bX5F3cm7fzlphIZQi_RDA2WYkyrGZlYVcE78dO1P_v3NouKih2bk_OrrclW6grG1VN9Yfa08mgi4VYauRCL46xaEmwXEd_FnQ6Rmjg0STQMzp1pV8br6SRCo0YSQqyfcvFKqPGLDgPvbpGlyuG6AliGs_BxJwpBgHO4Bqu__3cwd2MT7pqvYxlNuxI9RnIFl-WJkuaoZUs77PRCYLJS8jCgDYZHVy1OYnhiJJSJyVspu2y7doEIEw">
+</div>
+<div class="min-w-0">
+<div class="font-headline-sm text-[13px] text-on-surface font-bold truncate">Iron-Rich Beet &amp; Beef Mini Meatballs</div>
+<div class="font-body-sm text-[11px] text-on-surface-variant">0:42 Short · Adds +5.2mg Heme Iron</div>
+</div>
+</div>
+<button class="px-space-xs py-1 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold shrink-0 hover:bg-primary-container transition-colors" onclick="this.innerHTML='Added ✓'; this.classList.add('bg-surface-tint')">
+              + Add to Sun
+            </button>
+</div>
+<!-- Suggestion 2 -->
+<div class="p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Cut triangles of black bean and mashed avocado quesadilla with mild shredded cheese on a bamboo kids tray." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3Ru1wgDNhd2r13LtEfp-UrsJ3n4gjVm_4HKn81UoWswkTOuNzDUuqKgAqAwnrhv1xoRci0ARHjINCotblRLknkjflCQ7AJTze7JC346h8MrQAVgqucfY-y2sIp3SLwFmrpgrR5iV863urRfohHlaaev2QONGafkkUluOAr8qhwZlfsPjzSEgKs52BG3qPWbfj_MD_SDuk_i7Txc2GnelfBe_SiLOfStu7POsf4zK26dInfrBPuQfhnA">
+</div>
+<div class="min-w-0">
+<div class="font-headline-sm text-[13px] text-on-surface font-bold truncate">Black Bean Avocado Toddler Quesadilla</div>
+<div class="font-body-sm text-[11px] text-on-surface-variant">0:38 Short · Adds +3.6mg Non-Heme Iron</div>
+</div>
+</div>
+<button class="px-space-xs py-1 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold shrink-0 hover:bg-primary-container transition-colors" onclick="this.innerHTML='Added ✓'; this.classList.add('bg-surface-tint')">
+              + Add to Sat
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: MERGED SMART CART & INSTACART DISPATCH PANEL (approx 30%) -->
+<div class="lg:col-span-4 flex flex-col gap-space-md sticky top-20">
+<!-- Store Connection Widget -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_10px_-2px_rgba(31,77,54,0.05)]">
+<div class="flex items-center justify-between pb-space-xs mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-tint"></span>
+<div class="font-headline-sm text-[15px] text-on-surface font-bold">Instacart Fulfillment Bridge</div>
+</div>
+<span class="font-label-sm text-[11px] text-secondary font-semibold">Priority Delivery</span>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded-lg flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded bg-surface-container-lowest flex items-center justify-center font-bold text-red-600 text-xs shadow-xs">TGT</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-bold">Target Supercenter (Pike St)</div>
+<div class="font-body-sm text-[11px] text-on-surface-variant">Earliest: Tomorrow 8:00 AM – 10:00 AM</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-surface-tint font-bold">sync</span>
+</div>
+<div class="flex items-center justify-between text-[12px] font-body-sm text-secondary px-1">
+<span class="">Backup: Whole Foods Market (Westlake)</span>
+<span class="text-primary font-semibold hover:underline cursor-pointer">Change</span>
+</div>
+</div>
+<!-- Merged Grocery Item Checklist -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_10px_-2px_rgba(31,77,54,0.05)] flex flex-col">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div>
+<div class="font-headline-sm text-[16px] text-on-surface font-bold">Consolidated Shopping List</div>
+<div class="font-body-sm text-[11px] text-on-surface-variant">16 unique items extracted from 5 weekly Shorts</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-[11px] font-bold">Auto-Deduplicated</span>
+</div>
+<div class="space-y-space-md max-h-[360px] overflow-y-auto pr-1">
+<!-- Category 1: Fresh Produce -->
+<div>
+<div class="font-label-sm text-[11px] uppercase font-bold text-secondary tracking-wider mb-space-xs flex justify-between">
+<span class="">Fresh Produce (5 items)</span>
+<span class="">Subtotal: $14.80</span>
+</div>
+<div class="space-y-1.5">
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer text-[13px] font-body-sm">
+<div class="flex items-center gap-space-xs">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 accent-primary-container" type="checkbox">
+<span class="text-on-surface">Organic Garnet Sweet Potatoes (3 lbs)</span>
+</div>
+<span class="font-label-sm font-semibold text-secondary">$3.99</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer text-[13px] font-body-sm">
+<div class="flex items-center gap-space-xs">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 accent-primary-container" type="checkbox">
+<span class="text-on-surface">Red Bell Peppers (Pack of 3)</span>
+</div>
+<span class="font-label-sm font-semibold text-secondary">$3.49</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer text-[13px] font-body-sm">
+<div class="flex items-center gap-space-xs">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 accent-primary-container" type="checkbox">
+<span class="text-on-surface">Organic Baby Spinach (16 oz family tub)</span>
+</div>
+<span class="font-label-sm font-semibold text-secondary">$4.29</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer text-[13px] font-body-sm">
+<div class="flex items-center gap-space-xs">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 accent-primary-container" type="checkbox">
+<span class="text-on-surface">Fresh Broccoli Crowns (2 large heads)</span>
+</div>
+<span class="font-label-sm font-semibold text-secondary">$1.89</span>
+</label>
+</div>
+</div>
+<!-- Category 2: Proteins & Dairy -->
+<div>
+<div class="font-label-sm text-[11px] uppercase font-bold text-secondary tracking-wider mb-space-xs flex justify-between">
+<span class="">Proteins &amp; Pasture Dairy (4 items)</span>
+<span class="">Subtotal: $28.60</span>
+</div>
+<div class="space-y-1.5">
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer text-[13px] font-body-sm">
+<div class="flex items-center gap-space-xs">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 accent-primary-container" type="checkbox">
+<span class="text-on-surface">Boneless Skinless Chicken Thighs (2 lbs)</span>
+</div>
+<span class="font-label-sm font-semibold text-secondary">$8.99</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer text-[13px] font-body-sm">
+<div class="flex items-center gap-space-xs">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 accent-primary-container" type="checkbox">
+<span class="text-on-surface">Wild Alaskan Salmon Fillets (1 lb frozen)</span>
+</div>
+<span class="font-label-sm font-semibold text-secondary">$12.49</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low transition-colors cursor-pointer text-[13px] font-body-sm">
+<div class="flex items-center gap-space-xs">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 accent-primary-container" type="checkbox">
+<span class="text-on-surface">Pasture-Raised Grade A Large Eggs (1 doz)</span>
+</div>
+<span class="font-label-sm font-semibold text-secondary">$5.19</span>
+</label>
+</div>
+</div>
+<!-- Category 3: Pediatric Safety Swaps -->
+<div>
+<div class="font-label-sm text-[11px] uppercase font-bold text-tertiary tracking-wider mb-space-xs flex items-center justify-between">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">explore</span> Clinical Guardian Swaps
+              </span>
+<span class="">Subtotal: $4.29</span>
+</div>
+<div class="space-y-1.5">
+<div class="p-2 rounded-lg bg-tertiary-fixed/30 flex items-start justify-between gap-space-xs">
+<div>
+<div class="font-label-md text-[13px] text-on-surface font-bold">Pure Grade A Organic Maple Syrup (8 oz)</div>
+<div class="font-body-sm text-[11px] text-on-tertiary-fixed leading-tight mt-0.5">
+                    Replaced raw unpasteurized honey from recipe video to safeguard Lena from infant botulism risk (&lt;12-24mo protocol).
+                  </div>
+</div>
+<span class="font-label-sm font-bold text-on-surface shrink-0">$4.29</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pantry Probability Model Accordion (PRD 4.4) -->
+<div class="mt-space-md pt-space-xs border-t-0 bg-surface-container-low p-space-sm rounded-xl">
+<div class="flex items-center justify-between cursor-pointer" onclick="document.getElementById('pantry-drawer').classList.toggle('hidden');">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-surface-tint">kitchen</span>
+<div>
+<span class="font-label-md text-label-md font-bold text-on-surface">Pantry Skipped</span>
+<span class="font-label-sm text-[11px] text-surface-tint font-bold ml-1">(Saved $18.40)</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-primary font-label-sm text-[11px] font-semibold">
+<span class="">8 Staples</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</div>
+</div>
+<div class="hidden mt-space-xs pt-space-xs text-[12px] font-body-sm text-on-surface-variant space-y-1" id="pantry-drawer">
+<div class="flex justify-between"><span class="">Kosher sea salt (98% probability in pantry)</span> <span class="text-secondary line-through">$2.19</span></div>
+<div class="flex justify-between"><span class="">Cold-pressed olive oil (95% stock probability)</span> <span class="text-secondary line-through">$6.49</span></div>
+<div class="flex justify-between"><span class="">Garlic powder, turmeric &amp; black pepper</span> <span class="text-secondary line-through">$4.80</span></div>
+<div class="flex justify-between"><span class="">Organic rolled oats (Pantry staple)</span> <span class="text-secondary line-through">$4.92</span></div>
+<div class="pt-1 text-right">
+<button class="font-label-sm text-[11px] text-primary font-bold hover:underline" onclick="alert('8 pantry staples restored to active shopping cart.');">[+] Restore All to Cart</button>
+</div>
+</div>
+</div>
+<!-- Total Summary & Checkout Button -->
+<div class="mt-space-md pt-space-sm border-t-0 space-y-space-xs">
+<div class="flex justify-between font-body-sm text-[13px] text-on-surface-variant">
+<span class="">Ingredients (16 fresh items)</span>
+<span class="font-medium text-on-surface">$68.45</span>
+</div>
+<div class="flex justify-between font-body-sm text-[13px] text-on-surface-variant">
+<span class="">Est. Taxes &amp; Instacart Service</span>
+<span class="font-medium text-on-surface">$5.75</span>
+</div>
+<div class="flex justify-between font-headline-sm text-[18px] text-on-surface font-extrabold pt-1">
+<span class="">Total Estimated</span>
+<span class="text-primary">$74.20</span>
+</div>
+<button class="w-full h-12 mt-space-xs bg-primary text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-between px-space-md hover:bg-primary-container transition-all shadow-[0_4px_14px_-2px_rgba(3,54,33,0.35)]" onclick="alert('Exporting 16 vetted items directly to Instacart Cart for Sterling Family...');">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+<span class="">Export 16 Items to Instacart</span>
+</div>
+<div class="flex items-center gap-1 bg-white/20 px-space-xs py-0.5 rounded-lg text-[13px]">
+<span class="">1-Tap Sync</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</button>
+</div>
+<!-- Clinical Footnote Disclaimer -->
+<div class="mt-space-sm text-center">
+<p class="font-body-sm text-[10px] text-secondary leading-normal">
+            PrepLink provides nutritional calculation based on USDA FoodData Central &amp; AAP guidelines. Confirm severe allergens before preparation.
+          </p>
+</div>
+</div>
+</div>
+</div>
 </div></main></div>
-</body></html>
+
+<div id="auto-balance-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-inverse-surface/60 backdrop-blur-sm p-4 overflow-y-auto"><div class="relative w-full max-w-3xl bg-surface-container-lowest rounded-2xl shadow-[0_4px_24px_-2px_rgba(3,54,33,0.35)] overflow-hidden flex flex-col my-8 border border-outline-variant/30"><div class="bg-primary-container p-space-lg text-on-primary flex items-start justify-between relative overflow-hidden"><div class="absolute -right-8 -top-8 w-40 h-40 bg-surface-tint/20 rounded-full pointer-events-none"></div><div class="flex flex-col gap-1 pr-6 z-10"><div class="flex flex-wrap items-center gap-2 mb-1"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 text-primary-fixed text-[11px] font-bold tracking-wide uppercase"><span class="material-symbols-outlined text-[15px]">auto_awesome</span><span class="">Deterministic USDA Scoring + Gemini 2.5 Flash</span></div><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-[10px] font-extrabold tracking-wide uppercase">AAP DRI Algorithmic Guard</span></div><h2 class="font-headline-md text-[22px] text-white font-extrabold tracking-tight">Auto-Balance Nutritional Deficits</h2><p class="font-body-sm text-[13px] text-primary-fixed leading-relaxed max-w-xl">Simulated micro-nutrient swap matrix to resolve Lena's weekend 10.8mg Iron deficit without disrupting family dinner consensus.</p></div><button id="close-balance-modal" onclick="document.getElementById('auto-balance-modal').classList.add('hidden')" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors z-10 shrink-0"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div class="p-space-lg flex flex-col gap-space-md max-h-[72vh] overflow-y-auto"><div class="bg-surface-container-low rounded-xl p-space-md border border-outline-variant/40 flex flex-col gap-space-xs"><div class="flex flex-wrap items-center justify-between gap-2"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-sm">L</div><div><div class="font-headline-sm text-[14px] text-on-surface font-bold">Target: Lena Sterling (14 Months)</div><div class="font-body-sm text-[11px] text-on-surface-variant">Active Status: 38.2 / 49.0 mg Iron · Needs +10.8mg by Sun 8 PM</div></div></div><div class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-[11px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">verified</span><span class="">Projected: 49.6 / 49.0 mg (101% DRI Met · Deficit Resolved ✓)</span></div></div><div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden mt-1"><div class="bg-surface-tint h-full rounded-full transition-all duration-500" style="width: 100%"></div></div><div class="flex flex-wrap items-center justify-between text-[11px] font-body-sm text-secondary pt-1"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-surface-tint text-[14px]">check_circle</span> Liam Synergy: <strong>+180mg Bioavailable Calcium</strong></span><span class="flex items-center gap-1"><span class="material-symbols-outlined text-surface-tint text-[14px]">check_circle</span> Sarah &amp; Mark: <strong>+14g Dietary Prebiotic Fiber</strong></span><span class="text-primary font-bold">Choking Safety Screen Passed</span></div></div><div><div class="flex items-center justify-between mb-space-xs"><span class="font-label-sm text-[12px] font-bold uppercase tracking-wider text-secondary">Recommended Recipe Swaps (3 Actions)</span><span class="font-label-sm text-[11px] text-primary font-semibold">All swaps adhere to Pediatric No-Raw-Honey rule</span></div><div class="space-y-space-sm"><div class="p-space-sm rounded-xl border border-outline-variant/40 bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors flex flex-col gap-2"><div class="flex items-start justify-between gap-2"><div class="flex items-start gap-2.5"><div class="w-10 h-10 rounded-lg bg-tertiary-fixed/30 text-tertiary flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[20px]">swap_horiz</span></div><div><div class="flex items-center gap-1.5 flex-wrap"><span class="font-label-sm text-[10px] text-tertiary font-extrabold uppercase">Slot 1 · Friday Dinner Swap</span><span class="px-1.5 py-0.2 rounded bg-primary-fixed text-on-primary-fixed text-[9px] font-bold">Net Gain +2.1mg Iron</span></div><div class="font-headline-sm text-[14px] text-on-surface font-bold mt-0.5">Replace Dahl with Iron-Rich Beetroot Black Bean Burger Patties</div><div class="font-body-sm text-[12px] text-on-surface-variant">Paired with steamed sweet potato coins (@SolidStarts · 0:48 Short). Fork-tender cut tested for Lena's pincer grip.</div></div></div><button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-[11px] font-bold shrink-0 hover:bg-primary-container transition-colors" onclick="this.textContent='Applied ✓'; this.classList.replace('bg-primary','bg-surface-tint')">Apply Swap</button></div><div class="flex flex-wrap items-center gap-2 text-[11px] font-body-sm pt-1 border-t border-outline-variant/20"><span class="text-surface-tint font-bold">+6.2mg Elemental Iron</span><span class="text-secondary">·</span><span class="text-secondary">Prev: Spinach Lentil Dahl (+4.1mg)</span><span class="text-secondary">·</span><span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px]">No Salt in Toddler Portion</span></div></div><div class="p-space-sm rounded-xl border border-outline-variant/40 bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors flex flex-col gap-2"><div class="flex items-start justify-between gap-2"><div class="flex items-start gap-2.5"><div class="w-10 h-10 rounded-lg bg-primary-fixed/40 text-primary flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[20px]">add_circle</span></div><div><div class="flex items-center gap-1.5 flex-wrap"><span class="font-label-sm text-[10px] text-primary font-extrabold uppercase">Slot 2 · Saturday Family Dinner (Open Slot)</span><span class="px-1.5 py-0.2 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[9px] font-bold">Biochem Synergy +45%</span></div><div class="font-headline-sm text-[14px] text-on-surface font-bold mt-0.5">Moroccan Spiced Chickpea &amp; Apricot Stew w/ Citrus Greens</div><div class="font-body-sm text-[12px] text-on-surface-variant">High Vitamin C citrus directly elevates iron absorption. Family portion keeps adult sodium &lt;580mg/serving (@FeedingLittles · 0:52).</div></div></div><button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-[11px] font-bold shrink-0 hover:bg-primary-container transition-colors" onclick="this.textContent='Slotted ✓'; this.classList.replace('bg-primary','bg-surface-tint')">Slot to Saturday</button></div><div class="flex flex-wrap items-center gap-2 text-[11px] font-body-sm pt-1 border-t border-outline-variant/20"><span class="text-surface-tint font-bold">+5.4mg Bioavailable Iron</span><span class="text-secondary">·</span><span class="text-secondary">Closes 50% of Remaining Gap</span><span class="text-secondary">·</span><span class="px-1.5 py-0.5 rounded bg-primary-fixed/30 text-on-primary-fixed text-[10px]">Whole Family Consensus</span></div></div><div class="p-space-sm rounded-xl border border-outline-variant/40 bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors flex flex-col gap-2"><div class="flex items-start justify-between gap-2"><div class="flex items-start gap-2.5"><div class="w-10 h-10 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[20px]">upgrade</span></div><div><div class="flex items-center gap-1.5 flex-wrap"><span class="font-label-sm text-[10px] text-secondary font-extrabold uppercase">Slot 3 · Sunday PM Snack Upgrade</span><span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface text-[9px] font-bold">Zero Added Sugar</span></div><div class="font-headline-sm text-[14px] text-on-surface font-bold mt-0.5">Oat &amp; Hemp Seed Teething Waffles w/ Warm Berry Chia Compote</div><div class="font-body-sm text-[12px] text-on-surface-variant">Replaces plain applesauce cup. Fortified hemp seed and ground oats provide gentle iron + healthy fats.</div></div></div><button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-[11px] font-bold shrink-0 hover:bg-primary-container transition-colors" onclick="this.textContent='Applied ✓'; this.classList.replace('bg-primary','bg-surface-tint')">Apply Upgrade</button></div><div class="flex flex-wrap items-center gap-2 text-[11px] font-body-sm pt-1 border-t border-outline-variant/20"><span class="text-surface-tint font-bold">+3.3mg Paired Iron</span><span class="text-secondary">·</span><span class="text-secondary">Prev: Applesauce (+0.2mg)</span><span class="text-secondary">·</span><span class="px-1.5 py-0.5 rounded bg-surface-tint/15 text-surface-tint text-[10px]">Batch Freeze Friendly</span></div></div></div></div><div class="bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between border border-outline-variant/30 text-[12px] font-body-sm"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-surface-tint text-[18px]">shopping_cart</span><div><div class="font-bold text-on-surface">Instacart Cart Delta</div><div class="text-on-surface-variant">+4 fresh items added (Organic Black Beans, Chia Seeds, Beets, Apricots), 2 pantry items reused.</div></div></div><div class="text-right shrink-0"><div class="font-bold text-primary font-headline-sm text-[14px]">+$4.85 Net</div><div class="text-[10px] text-secondary">New Total: $79.05</div></div></div></div><div class="bg-surface-container-lowest border-t border-outline-variant/30 p-space-md flex flex-wrap items-center justify-between gap-space-sm"><button onclick="document.getElementById('auto-balance-modal').classList.add('hidden')" class="px-space-md py-2.5 rounded-xl text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors">Cancel</button><div class="flex items-center gap-space-xs"><button onclick="alert('Auto-balance applied successfully! Lena\'s weekend iron requirement is fully balanced (+11.6mg total). 4 items synchronized with your Target Instacart order.'); document.getElementById('auto-balance-modal').classList.add('hidden');" class="px-space-lg py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-bold transition-all shadow-[0_4px_14px_-2px_rgba(3,54,33,0.35)] flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">done_all</span><span class="">Apply All 3 Balanced Swaps &amp; Sync Instacart Cart</span></button></div></div></div></div></body></html>
