@@ -32,16 +32,8 @@ jobs:
       - name: Pydantic schema imports
         run: python -c "import app.schemas.recipe; print('schemas import OK')"
 
-      # TODO(gate-1): remove this guard once tests/safety/ with the 10
-      # nutrition safety rule tests exists. Until then this reports the gap
-      # as a warning instead of hard-failing every PR.
       - name: Nutrition safety rule tests (10 required)
-        run: |
-          if [ -d "tests/safety" ]; then
-            pytest tests/safety -v
-          else
-            echo "::warning::tests/safety/ not found — the 10 nutrition safety rule tests are not implemented yet. This must be a hard gate before production traffic depends on this pipeline (see ADR-003)."
-          fi
+        run: pytest tests/safety -v
 
       - name: pytest (full suite)
         run: |

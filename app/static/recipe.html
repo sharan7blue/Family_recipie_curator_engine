@@ -46,15 +46,13 @@
 </div>
 </div>
 
-<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm space-y-space-sm">
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm space-y-space-sm" id="safety-card" hidden>
 <div class="flex items-center space-x-2">
 <div class="w-6 h-6 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center"><span class="material-symbols-outlined text-[16px]">health_and_safety</span></div>
 <h2 class="font-headline-sm text-headline-sm text-on-surface">AAP Toddler Safety Rules</h2>
-<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant">Example</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant" id="safety-card-badge">Example</span>
 </div>
-<div class="space-y-space-xs">
-<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start space-x-3"><span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0 mt-0.5">swap_horiz</span><div><div class="font-label-md text-label-md text-on-surface font-semibold">Botulism Prevention (&lt;24 mo)</div><div class="font-body-sm text-body-sm text-on-surface-variant">Honey would be swapped for maple syrup — this rule exists in the stub adaptor but isn't fully wired to real ingredient data yet.</div></div></div>
-</div>
+<div class="space-y-space-xs" id="safety-notes"></div>
 </div>
 
 <div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm space-y-space-sm">
@@ -101,6 +99,29 @@ PrepLink provides informational nutrition reference and automated guideline scre
   const shareLink = document.getElementById('share-link');
   const demoBanner = document.getElementById('demo-banner');
   const confidenceBanner = document.getElementById('confidence-banner');
+  const safetyCard = document.getElementById('safety-card');
+  const safetyCardBadge = document.getElementById('safety-card-badge');
+  const safetyNotes = document.getElementById('safety-notes');
+
+  function noteIcon(warning) {
+    if (warning.startsWith('Removed')) return 'block';
+    if (warning.startsWith('Reduced')) return 'trending_down';
+    return 'swap_horiz';
+  }
+
+  function renderSafetyNotes(warnings, badgeText) {
+    if (!warnings || warnings.length === 0) {
+      safetyCard.hidden = true;
+      return;
+    }
+    safetyCard.hidden = false;
+    safetyCardBadge.textContent = badgeText;
+    safetyNotes.innerHTML = warnings.map(w => `
+      <div class="p-space-sm rounded-xl bg-surface-container-low flex items-start space-x-3">
+        <span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0 mt-0.5">${noteIcon(w)}</span>
+        <div class="font-body-sm text-body-sm text-on-surface-variant">${escapeHtml(w)}</div>
+      </div>`).join('');
+  }
 
   function showConfidenceBanner(confidence, extractionMethod) {
     if (extractionMethod === 'stub_no_gemini_key') {
@@ -187,6 +208,7 @@ PrepLink provides informational nutrition reference and automated guideline scre
       titleEl.textContent = DEMO.metadata.title;
       metaEl.textContent = `${DEMO.metadata.servings} servings · Example data`;
       renderChecklist(DEMO.ingredients);
+      renderSafetyNotes(['Swapped honey for maple syrup — original contains: Botulism risk <2yr.'], 'Example');
       shareLink.href = 'share.html';
       return;
     }
@@ -205,6 +227,7 @@ PrepLink provides informational nutrition reference and automated guideline scre
       metaEl.textContent = `${recipe.metadata.servings} servings · ${tags}`;
       renderChecklist(recipe.ingredients);
       showConfidenceBanner(recipe.confidence ?? 1.0, recipe.extraction_method);
+      renderSafetyNotes(recipe.warnings, 'Applied');
       cartUrl = cart.instacart_url || DEMO_CART_URL;
       shareLink.href = `share.html?job=${jobId}`;
     } catch (err) {
@@ -212,6 +235,7 @@ PrepLink provides informational nutrition reference and automated guideline scre
       titleEl.textContent = DEMO.metadata.title;
       metaEl.textContent = `Could not load job (${err.message}) — showing example data.`;
       renderChecklist(DEMO.ingredients);
+      renderSafetyNotes(['Swapped honey for maple syrup — original contains: Botulism risk <2yr.'], 'Example');
       shareLink.href = 'share.html';
     }
   }

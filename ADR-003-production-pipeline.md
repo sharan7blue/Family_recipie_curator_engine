@@ -53,8 +53,9 @@ Flagging every MEDIUM/LOW finding as a merge-blocker trains people to bypass the
 
 This ADR was written against the current state of the repo, which does **not yet have**:
 - a `frontend/` directory (TypeScript check, frontend build, and Lighthouse gates have nothing to run against yet)
-- a `tests/` suite, including the "10 nutrition safety rule tests" referenced in Gate 1
 - a `fly.toml` / Fly app, or Vercel / PostHog projects, or any of their secrets configured in this GitHub repo
+
+`tests/safety/` now exists (10 nutrition safety rule tests for the age adaptation engine, PRD §4.3) — its CI guard has been removed and Gate 1 hard-fails on it like the rest of the design.
 
 `.github/workflows/ci.yml` and `production.yml` are scaffolded to match this design, but steps that depend on the above **detect their target is missing and emit a `::warning::` annotation instead of hard-failing**, so CI stays green during early development instead of permanently red. Each such step is marked `# TODO(gate-N):` in the workflow file. As each piece lands (frontend app, safety-rule test suite, deploy secrets), remove the corresponding guard so the gate becomes a real hard gate as designed here.
 

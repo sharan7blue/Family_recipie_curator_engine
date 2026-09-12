@@ -1,10 +1,27 @@
-"""Age/dietary adaptation (stub) — passes ingredients through unchanged."""
+"""
+Age adaptation rule engine (PRD §4.3)
+========================================
+Deterministic AAP-sourced safety rules for toddler/infant households —
+substitute, omit, or reduce specific ingredients and surface a plain-language
+reason. Per the PRD, zero adaptation rules require LLM inference; this runs
+entirely on ingredient-name matching, same spirit as extractor.py's Gemini
+pass but with no model call at all.
+"""
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from enum import Enum
 
-from app.schemas.recipe import AdaptedRecipe, AgeGroup, DietaryFlag, ExtractedRecipe, LLMAdaptationOutput, UnitSystem
+from app.schemas.recipe import (
+    AdaptedRecipe,
+    AgeGroup,
+    DietaryFlag,
+    ExtractedRecipe,
+    Ingredient,
+    LLMAdaptationOutput,
+    UnitSystem,
+)
 
 
 class AgeBand(str, Enum):
@@ -42,6 +59,72 @@ def check_ingredient_safety_for_band(ingredient_name: str, age_band: str):
     return None
 
 
+class RuleAction(str, Enum):
+    SUBSTITUTE = "substitute"
+    OMIT = "omit"
+    REDUCE = "reduce"
+
+
+@dataclass(frozen=True)
+class SafetyRule:
+    trigger: str  # matched as a case-insensitive substring of the ingredient name
+    action: RuleAction
+    reason: str
+    substitute: str | None = None
+    keep_fraction: float | None = None  # for REDUCE: fraction of the original quantity kept
+
+
+# PRD §4.3 — deterministic, AAP-sourced. Applies to toddler (1-3yr) and
+# infant households; adults/children 4+ are unaffected (resolve_age_band
+# maps everything else to FOUR_PLUS).
+TODDLER_SAFETY_RULES: list[SafetyRule] = [
+    SafetyRule("honey", RuleAction.SUBSTITUTE, "Botulism risk <2yr", substitute="maple syrup"),
+    SafetyRule("whole nuts", RuleAction.SUBSTITUTE, "Choking hazard", substitute="finely ground nuts"),
+    SafetyRule("popcorn", RuleAction.OMIT, "Choking hazard"),
+    SafetyRule("raw carrots", RuleAction.SUBSTITUTE, "Choking hazard", substitute="steamed carrots"),
+    SafetyRule("hot sauce", RuleAction.OMIT, "Capsaicin, no nutritional need"),
+    SafetyRule("fish sauce", RuleAction.REDUCE, "Sodium content", keep_fraction=0.5),
+    SafetyRule("salt", RuleAction.REDUCE, "Renal load", keep_fraction=0.7),
+    SafetyRule("alcohol", RuleAction.OMIT, "Safety"),
+]
+
+
+def _matching_rule(ingredient_name: str) -> SafetyRule | None:
+    name = ingredient_name.lower()
+    return next((rule for rule in TODDLER_SAFETY_RULES if rule.trigger in name), None)
+
+
+def apply_age_safety_rules(ingredients: list[Ingredient], age_band: AgeBand) -> tuple[list[Ingredient], list[str]]:
+    """Deterministic pass over ingredients for toddler/infant households.
+
+    Returns the adapted ingredient list (substitutions applied, omissions
+    dropped, quantities reduced) plus a plain-language warning per change.
+    """
+    if age_band == AgeBand.FOUR_PLUS:
+        return ingredients, []
+
+    adapted: list[Ingredient] = []
+    warnings: list[str] = []
+    for ingredient in ingredients:
+        rule = _matching_rule(ingredient.name)
+        if rule is None:
+            adapted.append(ingredient)
+            continue
+
+        if rule.action == RuleAction.OMIT:
+            warnings.append(f"Removed {ingredient.name} — {rule.reason}.")
+        elif rule.action == RuleAction.SUBSTITUTE:
+            adapted.append(ingredient.model_copy(update={"name": rule.substitute}))
+            warnings.append(f"Swapped {ingredient.name} for {rule.substitute} — original contains: {rule.reason}.")
+        elif rule.action == RuleAction.REDUCE:
+            reduced_qty = round(ingredient.quantity * rule.keep_fraction, 3)
+            adapted.append(ingredient.model_copy(update={"quantity": reduced_qty}))
+            pct = int(rule.keep_fraction * 100)
+            warnings.append(f"Reduced {ingredient.name} to {pct}% of the stated amount — {rule.reason}.")
+
+    return adapted, warnings
+
+
 async def run_adaptation_pass(
     recipe: ExtractedRecipe,
     age_group: AgeGroup,
@@ -49,13 +132,29 @@ async def run_adaptation_pass(
     unit_system: UnitSystem,
     include_medium_pantry: bool,
 ) -> AdaptedRecipe:
+    age_band = resolve_age_band(age_group)
+    warnings: list[str] = []
+
+    # Hard-forbidden items (currently: honey under 12mo) are dropped outright
+    # before the substitution table runs, since "swap it" isn't an option.
+    survivors: list[Ingredient] = []
+    for ingredient in recipe.ingredients:
+        forbidden = check_ingredient_safety_for_band(ingredient.name, age_band.value)
+        if forbidden and forbidden.highest_severity == "forbidden":
+            warnings.append(f"Removed {ingredient.name} — {forbidden.ui_warning_text}")
+            continue
+        survivors.append(ingredient)
+
+    adapted_ingredients, rule_warnings = apply_age_safety_rules(survivors, age_band)
+    warnings.extend(rule_warnings)
+
     return AdaptedRecipe(
         metadata=recipe.metadata,
-        ingredients=recipe.ingredients,
+        ingredients=adapted_ingredients,
         steps=recipe.steps,
         age_group=age_group,
         dietary_filters=dietary_filters,
-        warnings=[],
+        warnings=warnings,
         confidence=recipe.confidence,
         extraction_method=recipe.extraction_method,
     )
